@@ -1,0 +1,93 @@
+.body-panel {
+  min-height: 520px;
+}
+
+.body-layout {
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1fr;
+  gap: 12px;
+}
+
+.body-column,
+.body-center {
+  display: grid;
+  gap: 12px;
+  align-content: center;
+}
+
+.body-silhouette {
+  min-height: 220px;
+  border: 1px dashed rgba(255, 255, 255, 0.25);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.2)),
+    #050505;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.body-part {
+  background: #161616;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.body-part-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.body-part h3 {
+  margin: 0;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.body-part-header span {
+  color: var(--school-color-light);
+  font-size: 0.75rem;
+}
+
+.body-dice {
+  font-size: 1.15rem;
+}
+
+.armor-control {
+  display: grid;
+  grid-template-columns: 34px 1fr 34px;
+  align-items: center;
+  text-align: center;
+}
+
+.armor-control button {
+  border: 0;
+  background: #333;
+  color: #fff;
+  padding: 8px;
+}
+
+.armor-control strong {
+  background: #0d0d0d;
+  padding: 8px;
+}
+
+.body-status {
+  margin: 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.body-status.normal {
+  color: #78d08c;
+}
+
+.body-status.disabled {
+  color: #ff6565;
+}

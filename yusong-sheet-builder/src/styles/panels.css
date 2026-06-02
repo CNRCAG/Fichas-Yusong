@@ -1,0 +1,90 @@
+.left-panel,
+.right-panel {
+  min-height: 520px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.panel-tabs {
+  display: flex;
+  background: #eee;
+}
+
+.panel-tabs button {
+  flex: 1;
+  border: 0;
+  background: #e8e8e8;
+  color: #333;
+  padding: 12px 8px;
+  font-weight: 700;
+}
+
+.panel-tabs button.active {
+  background: var(--school-color);
+  color: #fff;
+}
+
+.panel-content {
+  padding: 14px;
+  overflow: auto;
+}
+
+.talent-list,
+.skill-list,
+.condition-list {
+  display: grid;
+  gap: 10px;
+}
+
+.talent-card,
+.genius-card,
+.skill-card,
+.condition-card,
+.inventory-section {
+  background: #161616;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 12px;
+}
+
+.talent-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.talent-card h3,
+.genius-card h3 {
+  margin: 0;
+  color: var(--school-color-light);
+}
+
+.talent-card span {
+  color: #aaa;
+  font-size: 0.8rem;
+}
+
+.talent-card button,
+.add-button {
+  border: 1px solid var(--school-color-light);
+  background: transparent;
+  color: #fff;
+  padding: 6px 10px;
+}
+
+.inventory-row,
+.skill-card,
+.condition-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notes-area {
+  width: 100%;
+  min-height: 360px;
+  resize: vertical;
+  background: #111;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 12px;
+}

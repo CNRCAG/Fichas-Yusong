@@ -1,0 +1,81 @@
+.sheet-header {
+  background: rgba(8, 8, 8, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.header-info {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 16px;
+}
+
+.portrait-box {
+  min-height: 160px;
+  border: 1px solid var(--school-color-light);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.4));
+  display: grid;
+  place-items: center;
+  color: #aaa;
+}
+
+.identity-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.identity-grid label {
+  display: grid;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #cfcfcf;
+  text-transform: uppercase;
+}
+
+.identity-grid input,
+.identity-grid select {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: #111;
+  color: #f2f2f2;
+  padding: 8px;
+}
+
+.combat-summary {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.stat-card {
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-left: 4px solid var(--school-color-light);
+  padding: 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.stat-card span {
+  color: #aaa;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.stat-card strong {
+  font-size: 1.15rem;
+}
+
+@media (max-width: 900px) {
+  .header-info {
+    grid-template-columns: 1fr;
+  }
+
+  .identity-grid,
+  .combat-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

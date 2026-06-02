@@ -1,0 +1,29 @@
+.school-seirin {
+  --school-color: #3b2a6d;
+  --school-color-light: #6c58b5;
+}
+
+.school-shinnen {
+  --school-color: #17445a;
+  --school-color-light: #2f7a9c;
+}
+
+.school-yosuk {
+  --school-color: #8a2a73;
+  --school-color-light: #c747a7;
+}
+
+.school-yusong {
+  --school-color: #9b2d3a;
+  --school-color-light: #d4505f;
+}
+
+.school-zanfei {
+  --school-color: #2d5747;
+  --school-color-light: #4f8f75;
+}
+
+.school-custom {
+  --school-color: #555555;
+  --school-color-light: #888888;
+}

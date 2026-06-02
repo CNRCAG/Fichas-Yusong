@@ -1,0 +1,64 @@
+.attributes-panel {
+  padding-bottom: 14px;
+}
+
+.attributes-grid {
+  padding: 14px;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  gap: 10px;
+}
+
+.attribute-box {
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-top: 4px solid var(--school-color-light);
+  padding: 10px;
+  display: grid;
+  gap: 4px;
+  text-align: center;
+}
+
+.attribute-box span {
+  color: var(--school-color-light);
+  font-weight: 700;
+}
+
+.attribute-box strong {
+  font-size: 1.5rem;
+}
+
+.attribute-box small {
+  color: #aaa;
+  font-size: 0.7rem;
+}
+
+.reaction-row {
+  padding: 0 14px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.reaction-card {
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.reaction-card span {
+  color: #aaa;
+  text-transform: uppercase;
+}
+
+.reaction-card strong {
+  color: var(--school-color-light);
+}
+
+@media (max-width: 900px) {
+  .attributes-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
