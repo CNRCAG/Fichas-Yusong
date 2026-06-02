@@ -1,0 +1,51 @@
+export const bodyParts = [
+  {
+    id: "head",
+    name: "Cabeça",
+    type: "vital",
+    dice: "-",
+    armor: 20,
+  },
+  {
+    id: "torso",
+    name: "Torso",
+    type: "vital",
+    dice: "-",
+    armor: 20,
+  },
+  {
+    id: "abdomen",
+    name: "Abdômen",
+    type: "vital",
+    dice: "-",
+    armor: 20,
+  },
+  {
+    id: "rightArm",
+    name: "Braço Direito",
+    type: "member",
+    dice: "1d6",
+    armor: 12,
+  },
+  {
+    id: "leftArm",
+    name: "Braço Esquerdo",
+    type: "member",
+    dice: "1d6",
+    armor: 12,
+  },
+  {
+    id: "rightLeg",
+    name: "Perna Direita",
+    type: "member",
+    dice: "1d6",
+    armor: 12,
+  },
+  {
+    id: "leftLeg",
+    name: "Perna Esquerda",
+    type: "member",
+    dice: "1d6",
+    armor: 12,
+  },
+];
