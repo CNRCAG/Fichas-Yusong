@@ -1,67 +1,107 @@
 .body-panel {
-  min-height: 520px;
+  min-height: 860px;
 }
 
-.body-layout {
-  padding: 14px;
-  display: grid;
-  grid-template-columns: 1fr 1.1fr 1fr;
-  gap: 12px;
+.body-map {
+  position: relative;
+  min-height: 820px;
+  margin: 14px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.07), transparent 44%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.42)),
+    #050505;
+  border: 1px solid rgba(255, 255, 255, 0.14);
 }
 
-.body-column,
-.body-center {
-  display: grid;
-  gap: 12px;
-  align-content: center;
+.body-grid-lines {
+  position: absolute;
+  inset: 0;
+  opacity: 0.07;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+/* SILHUETA TÁTICA */
+
+.body-figure {
+  position: absolute;
+  left: 50%;
+  top: 51%;
+  width: 290px;
+  height: 640px;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  opacity: 0.7;
+  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.1));
 }
 
 .body-silhouette {
-  min-height: 220px;
-  border: 1px dashed rgba(255, 255, 255, 0.25);
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.2)),
-    #050505;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  color: #999;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
+
+.body-svg-shape {
+  fill: url("#bodyFill");
+  stroke: rgba(255, 255, 255, 0.18);
+  stroke-width: 1.1;
+}
+
+.body-svg-lines {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.5);
+  stroke-width: 1.2;
+  opacity: 0.75;
+}
+
+/* CARD DAS PARTES */
 
 .body-part {
-  background: #161616;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  padding: 10px;
+  background: rgba(18, 18, 18, 0.97);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.75),
+    0 8px 24px rgba(0, 0, 0, 0.35);
+  padding: 7px;
   display: grid;
-  gap: 8px;
+  gap: 5px;
 }
 
-.body-part-header {
+.body-part-floating {
+  position: absolute;
+  width: 150px;
+  z-index: 3;
+}
+
+.body-part-top {
   display: flex;
+  align-items: start;
   justify-content: space-between;
   gap: 8px;
 }
 
 .body-part h3 {
   margin: 0;
-  font-size: 0.85rem;
+  color: #fff;
+  font-size: 0.72rem;
   text-transform: uppercase;
-}
-
-.body-part-header span {
-  color: var(--school-color-light);
-  font-size: 0.75rem;
+  letter-spacing: 0.6px;
+  line-height: 1.1;
 }
 
 .body-dice {
-  font-size: 1.15rem;
+  color: #fff;
+  font-size: 1.05rem;
+  line-height: 1;
 }
 
 .armor-control {
   display: grid;
-  grid-template-columns: 34px 1fr 34px;
+  grid-template-columns: 28px 1fr 28px;
   align-items: center;
   text-align: center;
 }
@@ -70,18 +110,27 @@
   border: 0;
   background: #333;
   color: #fff;
-  padding: 8px;
+  padding: 6px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.armor-control button:hover {
+  background: var(--school-color);
 }
 
 .armor-control strong {
-  background: #0d0d0d;
-  padding: 8px;
+  background: #060606;
+  padding: 6px 4px;
+  color: #fff;
+  font-size: 0.9rem;
 }
 
 .body-status {
   margin: 0;
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .body-status.normal {
@@ -90,4 +139,152 @@
 
 .body-status.disabled {
   color: #ff6565;
+}
+
+/* POSIÇÕES DOS CARDS */
+
+.part-head {
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.part-torso {
+  top: 310px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.part-abdomen {
+  top: 445px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.part-right-arm {
+  top: 235px;
+  left: 18px;
+}
+
+.part-left-arm {
+  top: 235px;
+  right: 18px;
+}
+
+.part-right-leg {
+  bottom: 34px;
+  left: 30px;
+}
+
+.part-left-leg {
+  bottom: 34px;
+  right: 30px;
+}
+
+/* LINHAS DE LIGAÇÃO */
+
+.body-part-floating::after {
+  content: "";
+  position: absolute;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.24);
+  pointer-events: none;
+}
+
+.part-head::after {
+  left: 50%;
+  top: 100%;
+  width: 1px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.part-right-arm::after {
+  right: -70px;
+  top: 50%;
+  width: 70px;
+}
+
+.part-left-arm::after {
+  left: -70px;
+  top: 50%;
+  width: 70px;
+}
+
+.part-torso::after {
+  left: 50%;
+  top: -44px;
+  width: 1px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.part-abdomen::after {
+  left: 50%;
+  top: -38px;
+  width: 1px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.part-right-leg::after {
+  right: -70px;
+  top: 28px;
+  width: 70px;
+}
+
+.part-left-leg::after {
+  left: -70px;
+  top: 28px;
+  width: 70px;
+}
+
+/* RESPONSIVO */
+
+@media (max-width: 1200px) {
+  .body-map {
+    min-height: 900px;
+  }
+
+  .body-figure {
+    top: 49%;
+    width: 270px;
+    height: 620px;
+  }
+
+  .body-part-floating {
+    width: 145px;
+  }
+
+  .part-head {
+    top: 18px;
+  }
+
+  .part-right-arm {
+    top: 225px;
+    left: 10px;
+  }
+
+  .part-left-arm {
+    top: 225px;
+    right: 10px;
+  }
+
+  .part-torso {
+    top: 355px;
+  }
+
+  .part-abdomen {
+    top: 490px;
+  }
+
+  .part-right-leg {
+    bottom: 36px;
+    left: 16px;
+  }
+
+  .part-left-leg {
+    bottom: 36px;
+    right: 16px;
+  }
 }
