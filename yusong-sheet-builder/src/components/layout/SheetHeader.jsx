@@ -1,7 +1,7 @@
 import { schools } from "../../data/schools";
+import StatCard from "../ui/StatCard";
 import { origins } from "../../data/origins";
 import { martialArts } from "../../data/martialArts";
-import StatCard from "../ui/StatCard";
 
 function SheetHeader({ character, onUpdateIdentity }) {
   const { identity, resources } = character;
@@ -89,6 +89,7 @@ function SheetHeader({ character, onUpdateIdentity }) {
             </select>
           </label>
 
+          {/* Origem como dropdown */}
           <label>
             Origem
             <select
@@ -96,14 +97,15 @@ function SheetHeader({ character, onUpdateIdentity }) {
               onChange={(e) => onUpdateIdentity("origin", e.target.value)}
             >
               <option value="">Escolha uma opção</option>
-              {origins.map((option) => (
-                <option key={option} value={option}>
-                  {option}
+              {origins.map((o) => (
+                <option key={o.name} value={o.name}>
+                  {o.name}
                 </option>
               ))}
             </select>
           </label>
 
+          {/* Arte Marcial como dropdown */}
           <label>
             Arte Marcial
             <select
@@ -111,9 +113,9 @@ function SheetHeader({ character, onUpdateIdentity }) {
               onChange={(e) => onUpdateIdentity("martialArt", e.target.value)}
             >
               <option value="">Escolha uma opção</option>
-              {martialArts.map((option) => (
-                <option key={option} value={option}>
-                  {option}
+              {martialArts.map((m) => (
+                <option key={m.name} value={m.name}>
+                  {m.name}
                 </option>
               ))}
             </select>

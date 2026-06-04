@@ -3,7 +3,7 @@ export function calculateLife(health, level) {
 }
 
 export function calculateStamina(constitution, health) {
-  return (Number(constitution) + Number(health)) * 5 + 100;
+  return (Number(constitution) + Number(health)) * 5 *5+ 100;
 }
 
 export function calculateMovement(agility, size) {

@@ -1,16 +1,15 @@
 export const origins = [
-  "Herdeiro",
-  "Arruaceiro",
-  "Bully",
-  "Atleta",
-  "Lutador Profissional",
-  "Criança Rica Rejeitada",
-  "Ex-Campeão Juvenil",
-  "Delinquente Arrependido",
-  "Trabalhador",
-  "Guarda-Costas",
-  "Idol Escolar",
-  "Atleta",
-  "Bolsista"
-  // adicione mais origens do suplemento
+  { name: "Herdeiro", benefit: "Perícias: +1 em Fama e Persuasão. Habilidade: Berço de Ouro Você treinou especificamente em um dos pontos da luta para ser melhor que os outros, teve um treinamento de linha. Escolha um dos membros ou reações e o dado se torna como se fosse um nível acima. E você começa a Campanha/Oneshot com 15 mil Wons." },
+  { name: "Arruaceiro", benefit: "Perícias: +1 em Persuasão e Intimidação. Habilidade: Eu Sei o Seu Segredo Você sabe persuadir pessoas apenas com uma palavra ou com apenas uma ação. Uma vez por sessão, você pode usar esta habilidade e gastar 35 de Stamina para descobrir uma informação importante de um NPC ou um Player. E você tem vantagens em testes de para persuadir pessoas." },
+  { name: "Bully", benefit: "Perícias: +1 em Intimidação e Fortitude. Habilidade: Esse Dever é Meu Intimidar pessoas é seu dever, já que você é a pessoa que faz isso, pessoas não podem te intimidar. Você é imune à condição Amedrontado e tem vantagens em testes para intimidar pessoas." },
+  { name: "Atleta", benefit: "Perícias: +1 em Acrobacia ou Atletismo e Fortitude. Habilidade: Corpo DefinidoSeu corpo já está acostumado a tombos, cotoveladas, joelhadas e outras coisas desse tipo, afinal, como um atleta, você já passou por isso. Suas armaduras do Peito, Abdômen e Cabeça aumentam em um valor igual à Constituição X 1,5 e você tem vantagens em testes de uma das características entre Força, Agilidade ou Constituição." },
+  { name: "Lutador Profissional", benefit: "Perícias: +1 em Fama e Fortitude. Habilidade: Campeão Você é profissional ou apenas chegou na última etapa do seu arte marcial (Ex: Faixa Preta) e você sabe até ensinar ele caso precise. Você tem vantagens em testes para ensinar sua arte marcial e pode gastar 50 de Stamina para subir o nível dos seus dados em um nível enquanto estiver em postura de luta." },
+  { name: "Criança Rica Rejeitada", benefit: "Perícias: +1 em Fama e Vontade. Habilidade: Eu Não Preciso de Vocês Uma vez por cena, quando falhar em um teste de Vontade, Persuasão ou Intimidação contra alguém que tentou te humilhar, pode gastar 25 de Stamina para refazer o teste com +5. Tem vantagem para resistir a provocação social envolvendo status, família ou dinheiro." },
+  { name: "Ex-Campeão Juvenil", benefit: "Perícias: +1 em Atletismo e Fama. Habilidade: Medalha Antiga Uma vez por cena, ao realizar um teste físico ligado a esporte, corrida, salto, equilíbrio ou explosão corporal, pode gastar 25 de Stamina para receber +5. Se alguém reconhecer seu passado competitivo, você também recebe +2 em Fama ou Persuasão nessa cena." },
+  { name: "Delinquente Arrependido", benefit: "Perícias: +1 em Crime e Vontade. Habilidade: Não Sou Mais Assim Uma vez por cena, quando alguém tentar te provocar para perder o controle, você pode gastar 30 de Stamina para ignorar Enfurecido, Amedrontado ou Ansioso por 1 rodada. Se você escolher não atacar alguém que poderia finalizar, recebe +4 no próximo teste de Vontade ou Persuasão." },
+  { name: "Trabalhador", benefit: "Perícias: +1 em Fortitude e Ofício. Habilidade: Corpo de Rotina Você tem vantagem em testes para carregar peso, resistir a cansaço, suportar dor física comum ou continuar trabalhando/lutando sob pressão. Uma vez por cena, pode gastar 25 de Stamina para reduzir dano físico recebido em 1d8 + Constituição" },
+  { name: "Guarda-Costas", benefit: "Perícias: +1 em Percepção e Fortitude. Habilidade: Eu Entro na Frente Quando um aliado próximo for alvo de um ataque, você pode gastar 35 de Stamina e sua reação para entrar na frente. Você se torna o alvo do ataque e recebe +4 em Bloqueio ou resistência contra esse dano." },
+  { name: "Idol Escolar", benefit: "Perícias: +1 em Fama e Persuasão. Habilidade: Todo Mundo Olha Uma vez por cena, você pode gastar 30 de Stamina para chamar atenção dos inimigos próximos. Eles fazem um teste de Poder contra seu Carisma. Quem falhar recebe -4 no próximo teste contra um aliado seu, por estar distraído com sua presença." },
+  { name: "Bolsista", benefit: "Perícias: +1 em Vontade e Fortitude. Habilidade: Não Posso Cair Aqui Quando estiver com metade da Stamina ou menos, uma vez por cena, pode gastar 25 de Stamina para receber +5 em um teste de resistência física ou mental. Recebe vantagem em testes para suportar pressão social, humilhação ou comparação com alunos de elite." }
+  // Adicione as outras origens do suplemento conforme necessário
 ];
