@@ -11,14 +11,14 @@
 /* Reposiciona apenas os painéis laterais mantendo o painel central */
 .left-panel {
   grid-area: left;
-  margin-left: 0;       /* ajusta horizontalmente */
+  margin-right: 100px;       /* ajusta horizontalmente */
   margin-top: 15px;     /* aproxima do cabeçalho verticalmente */
   align-self: start;    /* força o alinhamento no topo do espaço */
 }
 
 .right-panel {
   grid-area: right;
-  margin-right: 0;      /* ajusta horizontalmente */
+  margin-right: 40px;      /* ajusta horizontalmente */
   margin-top: 15px;     /* aproxima do cabeçalho verticalmente */
   align-self: start;    /* força o alinhamento no topo do espaço */
 }
