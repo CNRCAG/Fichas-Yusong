@@ -12,10 +12,8 @@ import {
 } from "./utils/calculations";
 
 import SheetHeader from "./components/layout/SheetHeader";
+import MainLayout from "./components/layout/MainLayout";
 import AttributesFooter from "./components/layout/AttributesFooter";
-import BodyPanel from "./components/panels/BodyPanel";
-import LeftPanel from "./components/panels/LeftPanel";
-import RightPanel from "./components/panels/RightPanel";
 
 import "./styles/global.css";
 import "./styles/themes.css";
@@ -29,6 +27,7 @@ function App() {
   const [character, setCharacter] = useState(characterInitialState);
   const selectedSchool = getSchoolById(character.identity.school);
 
+  // Atualiza recursos e reações automaticamente
   useEffect(() => {
     const newLife = calculateLife(character.attributes.health, character.identity.level);
     const newStamina = calculateStamina(character.attributes.constitution, character.attributes.health);
@@ -57,6 +56,17 @@ function App() {
     }));
   }, [character.attributes, character.identity.level]);
 
+  // Atualiza qualquer campo do identity
+  function handleUpdateIdentity(field, value) {
+    setCharacter(prev => ({
+      ...prev,
+      identity: {
+        ...prev.identity,
+        [field]: value
+      }
+    }));
+  }
+
   function handleChangeBodyArmor(partId, amount) {
     setCharacter(prev => ({
       ...prev,
@@ -65,16 +75,6 @@ function App() {
         const newArmor = Math.min(part.maxArmor, Math.max(0, part.currentArmor + amount));
         return { ...part, currentArmor: newArmor };
       }),
-    }));
-  }
-
-  function handleUpdateAttribute(key, value) {
-    setCharacter(prev => ({
-      ...prev,
-      attributes: {
-        ...prev.attributes,
-        [key]: Number(value)
-      }
     }));
   }
 
@@ -109,32 +109,18 @@ function App() {
   return (
     <main className={`app-page ${selectedSchool.themeClass}`}>
       <section className="character-sheet">
-        {/* Cabeçalho */}
-        <SheetHeader character={character} />
+        <SheetHeader
+          character={character}
+          onUpdateIdentity={handleUpdateIdentity}
+        />
 
-        {/* Layout principal */}
-        <div className="main-layout">
-          <div className="left-panel">
-            <LeftPanel
-              character={character}
-              onUseTalent={handleUseTalent}
-              onUseGenius={handleUseGenius}
-            />
-          </div>
+        <MainLayout
+          character={character}
+          onChangeBodyArmor={handleChangeBodyArmor}
+          onUseTalent={handleUseTalent}
+          onUseGenius={handleUseGenius}
+        />
 
-          <div className="center-panel">
-            <BodyPanel
-              character={character}
-              onChangeBodyArmor={handleChangeBodyArmor}
-            />
-          </div>
-
-          <div className="right-panel">
-            <RightPanel character={character} />
-          </div>
-        </div>
-
-        {/* Rodapé de atributos */}
         <AttributesFooter character={character} />
       </section>
     </main>

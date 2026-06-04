@@ -17,15 +17,19 @@ function LeftPanel({ character, onUseTalent, onUseGenius }) {
 
       <div className="panel-content">
         {activeTab === "talents" && (
-          <div className="talents-list">
-            {character.talents.map((talent) => (
-              <TalentCard
-                key={talent.id}
-                talent={talent}
-                currentStamina={character.resources.currentStamina}
-                onUseTalent={onUseTalent}
-              />
-            ))}
+          <div className="talent-list">
+            {character.talents.length > 0 ? (
+              character.talents.map((talent) => (
+                <TalentCard
+                  key={talent.id}
+                  talent={talent}
+                  currentStamina={character.resources.currentStamina}
+                  onUseTalent={onUseTalent}
+                />
+              ))
+            ) : (
+              <p>Nenhum talento disponível</p>
+            )}
           </div>
         )}
 
@@ -39,7 +43,7 @@ function LeftPanel({ character, onUseTalent, onUseGenius }) {
                   level={level}
                   description={desc}
                   currentStamina={character.resources.currentStamina}
-                  staminaCost={10}
+                  staminaCost={10} // pode ajustar o custo se quiser
                   onUse={() => onUseGenius(level)}
                 />
               ))}

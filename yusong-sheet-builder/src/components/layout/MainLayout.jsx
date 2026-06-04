@@ -1,19 +1,32 @@
-import LeftPanel from "../panels/LeftPanel";
 import BodyPanel from "../panels/BodyPanel";
+import LeftPanel from "../panels/LeftPanel";
 import RightPanel from "../panels/RightPanel";
 
-function MainLayout({ character, onChangeBodyArmor }) {
+function MainLayout({ character, onChangeBodyArmor, onUpdateAttribute, onUseTalent, onUseGenius }) {
   return (
-    <section className="main-layout">
-      <LeftPanel character={character} />
+    <div className="main-layout">
+      {/* Painel esquerdo: Talentos + Gênio */}
+      <aside className="left-panel panel">
+        <LeftPanel
+          character={character}
+          onUseTalent={onUseTalent}
+          onUseGenius={onUseGenius}
+        />
+      </aside>
 
-      <BodyPanel
-        character={character}
-        onChangeBodyArmor={onChangeBodyArmor}
-      />
+      {/* Painel central: Corpo */}
+      <main className="center-panel">
+        <BodyPanel
+          character={character}
+          onChangeBodyArmor={onChangeBodyArmor}
+        />
+      </main>
 
-      <RightPanel character={character} />
-    </section>
+      {/* Painel direito: Inventário, Perícias, Condições e Notas */}
+      <aside className="right-panel panel">
+        <RightPanel character={character} />
+      </aside>
+    </div>
   );
 }
 

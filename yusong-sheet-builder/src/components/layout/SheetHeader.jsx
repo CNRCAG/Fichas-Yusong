@@ -1,7 +1,9 @@
-import StatCard from "../ui/StatCard";
 import { schools } from "../../data/schools";
+import { origins } from "../../data/origins";
+import { martialArts } from "../../data/martialArts";
+import StatCard from "../ui/StatCard";
 
-function SheetHeader({ character }) {
+function SheetHeader({ character, onUpdateIdentity }) {
   const { identity, resources } = character;
 
   return (
@@ -14,27 +16,46 @@ function SheetHeader({ character }) {
         <div className="identity-grid">
           <label>
             Nome
-            <input type="text" value={identity.name} readOnly />
+            <input
+              type="text"
+              value={identity.name}
+              onChange={(e) => onUpdateIdentity("name", e.target.value)}
+            />
           </label>
 
           <label>
             Nível
-            <input type="number" value={identity.level} readOnly />
+            <input
+              type="number"
+              value={identity.level}
+              onChange={(e) => onUpdateIdentity("level", Number(e.target.value))}
+            />
           </label>
 
           <label>
             Idade
-            <input type="text" value={identity.age} readOnly />
+            <input
+              type="text"
+              value={identity.age}
+              onChange={(e) => onUpdateIdentity("age", e.target.value)}
+            />
           </label>
 
           <label>
             Altura
-            <input type="text" value={identity.height} readOnly />
+            <input
+              type="text"
+              value={identity.height}
+              onChange={(e) => onUpdateIdentity("height", e.target.value)}
+            />
           </label>
 
           <label>
             Escola
-            <select value={identity.school} disabled>
+            <select
+              value={identity.school}
+              onChange={(e) => onUpdateIdentity("school", e.target.value)}
+            >
               {schools.map((school) => (
                 <option key={school.id} value={school.id}>
                   {school.name}
@@ -45,7 +66,10 @@ function SheetHeader({ character }) {
 
           <label>
             Tipo
-            <select value={identity.type} disabled>
+            <select
+              value={identity.type}
+              onChange={(e) => onUpdateIdentity("type", e.target.value)}
+            >
               <option value="prodigio">Prodígio</option>
               <option value="diligente-persistente">Diligente Persistente</option>
               <option value="diligente-super-humano">Diligente Super Humano</option>
@@ -54,7 +78,10 @@ function SheetHeader({ character }) {
 
           <label>
             Classe
-            <select value={identity.characterClass} disabled>
+            <select
+              value={identity.characterClass}
+              onChange={(e) => onUpdateIdentity("characterClass", e.target.value)}
+            >
               <option value="bruto">Bruto</option>
               <option value="agil">Ágil</option>
               <option value="tatico">Tático</option>
@@ -64,12 +91,32 @@ function SheetHeader({ character }) {
 
           <label>
             Origem
-            <input type="text" value={identity.origin} readOnly />
+            <select
+              value={identity.origin}
+              onChange={(e) => onUpdateIdentity("origin", e.target.value)}
+            >
+              <option value="">Escolha uma opção</option>
+              {origins.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </label>
 
           <label>
             Arte Marcial
-            <input type="text" value={identity.martialArt} readOnly />
+            <select
+              value={identity.martialArt}
+              onChange={(e) => onUpdateIdentity("martialArt", e.target.value)}
+            >
+              <option value="">Escolha uma opção</option>
+              {martialArts.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
           </label>
         </div>
       </section>
@@ -79,12 +126,10 @@ function SheetHeader({ character }) {
           label="Vida Real"
           value={`${resources.currentLife} / ${resources.maxLife}`}
         />
-
         <StatCard
           label="Stamina"
           value={`${resources.currentStamina} / ${resources.maxStamina}`}
         />
-
         <StatCard label="RD" value={resources.rd} />
         <StatCard label="Movimento" value={`${resources.movement}m`} />
         <StatCard label="Corrida" value={`${resources.run}m`} />

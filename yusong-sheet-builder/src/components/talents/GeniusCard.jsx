@@ -9,6 +9,7 @@ function GeniusCard({ level, description, currentStamina, staminaCost, onUse }) 
         <p>{description}</p>
         {staminaCost > 0 && <small>Custo: {staminaCost} Stamina</small>}
       </div>
+
       {staminaCost > 0 && (
         <button
           onClick={onUse}
