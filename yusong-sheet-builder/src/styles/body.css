@@ -25,18 +25,20 @@
   pointer-events: none;
 }
 
-/* SILHUETA TÁTICA */
+/* SILHUETA HUMANA EM LINHAS */
 
 .body-figure {
   position: absolute;
   left: 50%;
-  top: 51%;
-  width: 290px;
-  height: 640px;
+  top: 50.5%;
+  width: 320px;
+  height: 760px;
   transform: translate(-50%, -50%);
   z-index: 1;
-  opacity: 0.7;
-  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.1));
+  opacity: 0.55;
+  filter:
+    blur(0.35px)
+    drop-shadow(0 0 14px rgba(255, 255, 255, 0.08));
 }
 
 .body-silhouette {
@@ -45,17 +47,28 @@
   display: block;
 }
 
-.body-svg-shape {
-  fill: url("#bodyFill");
-  stroke: rgba(255, 255, 255, 0.18);
-  stroke-width: 1.1;
+.body-soft-fill {
+  fill: url("#bodyGhostFill");
+  stroke: none;
+  opacity: 0.68;
 }
 
-.body-svg-lines {
+.body-outline {
   fill: none;
-  stroke: rgba(0, 0, 0, 0.5);
-  stroke-width: 1.2;
+  stroke: rgba(255, 255, 255, 0.42);
+  stroke-width: 1.15;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   opacity: 0.75;
+}
+
+.body-anatomy-lines {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-width: 0.85;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.45;
 }
 
 /* CARD DAS PARTES */
@@ -247,17 +260,13 @@
   }
 
   .body-figure {
-    top: 49%;
-    width: 270px;
-    height: 620px;
+    top: 49.5%;
+    width: 300px;
+    height: 700px;
   }
 
   .body-part-floating {
     width: 145px;
-  }
-
-  .part-head {
-    top: 18px;
   }
 
   .part-right-arm {
