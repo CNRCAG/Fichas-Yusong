@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PanelTabs from "../ui/PanelTabs";
 import TalentCard from "../talents/TalentCard";
+import TalentPicker from "../talents/TalentPicker";
 import { origins } from "../../data/origins";
 import { martialArts } from "../../data/martialArts";
 
@@ -9,8 +10,34 @@ const tabs = [
   { id: "genius", label: "Gênio" },
 ];
 
-function LeftPanel({ character, onUseTalent, onUseGenius }) {
+function LeftPanel({
+  character,
+  onUseTalent,
+  onAddTalent,
+  onRemoveTalent,
+  onUseGenius,
+}) {
   const [activeTab, setActiveTab] = useState("talents");
+  const [currentBenefits, setCurrentBenefits] = useState([]);
+  const [isTalentPickerOpen, setIsTalentPickerOpen] = useState(false);
+
+  useEffect(() => {
+    const benefits = [];
+
+    const originBenefit = origins.find(
+      (origin) => origin.name === character.identity.origin
+    );
+
+    if (originBenefit) benefits.push(originBenefit);
+
+    const martialBenefit = martialArts.find(
+      (martialArt) => martialArt.name === character.identity.martialArt
+    );
+
+    if (martialBenefit) benefits.push(martialBenefit);
+
+    setCurrentBenefits(benefits);
+  }, [character.identity.origin, character.identity.martialArt]);
 
   return (
     <aside className="left-panel panel">
@@ -19,37 +46,40 @@ function LeftPanel({ character, onUseTalent, onUseGenius }) {
       <div className="panel-content">
         {activeTab === "talents" && (
           <>
-            <div className="section-title">
+            <div className="section-title section-title-row">
               <h2>Talentos</h2>
+
+              <button
+                type="button"
+                className="add-button"
+                onClick={() => setIsTalentPickerOpen(true)}
+              >
+                + Talento
+              </button>
             </div>
 
-            {/* Benefícios das Origens e Artes Marciais */}
             <div className="benefits-list">
-              {character.identity.origin && (
-                <div className="benefit-card">
-                  <strong>{character.identity.origin}:</strong>{" "}
-                  {origins.find(o => o.name === character.identity.origin)?.benefit}
+              {currentBenefits.map((benefit) => (
+                <div key={benefit.name} className="benefit-card">
+                  <strong>{benefit.name}:</strong> {benefit.benefit}
                 </div>
-              )}
-
-              {character.identity.martialArt && (
-                <div className="benefit-card">
-                  <strong>{character.identity.martialArt}:</strong>{" "}
-                  {martialArts.find(m => m.name === character.identity.martialArt)?.benefit}
-                </div>
-              )}
+              ))}
             </div>
 
-            {/* Lista de talentos */}
             <div className="talent-list">
-              {character.talents.map((talent) => (
-                <TalentCard
-                  key={talent.id}
-                  talent={talent}
-                  currentStamina={character.resources.currentStamina}
-                  onUseTalent={onUseTalent}
-                />
-              ))}
+              {character.talents.length > 0 ? (
+                character.talents.map((talent) => (
+                  <TalentCard
+                    key={talent.id}
+                    talent={talent}
+                    currentStamina={character.resources.currentStamina}
+                    onUseTalent={onUseTalent}
+                    onRemoveTalent={onRemoveTalent}
+                  />
+                ))
+              ) : (
+                <p className="empty-message">Nenhum talento adicionado.</p>
+              )}
             </div>
           </>
         )}
@@ -62,14 +92,39 @@ function LeftPanel({ character, onUseTalent, onUseGenius }) {
 
             <article className="genius-card">
               <h3>{character.genius.name || "Sem nome definido"}</h3>
-              <p><strong>Nível 1:</strong> {character.genius.level1 || "Não definido"}</p>
-              <p><strong>Nível 2:</strong> {character.genius.level2 || "Não definido"}</p>
-              <p><strong>Nível 3:</strong> {character.genius.level3 || "Não definido"}</p>
-              <p><strong>Despertar:</strong> {character.genius.awakening || "Não definido"}</p>
+
+              <p>
+                <strong>Nível 1:</strong>{" "}
+                {character.genius.level1 || "Não definido"}
+              </p>
+
+              <p>
+                <strong>Nível 2:</strong>{" "}
+                {character.genius.level2 || "Não definido"}
+              </p>
+
+              <p>
+                <strong>Nível 3:</strong>{" "}
+                {character.genius.level3 || "Não definido"}
+              </p>
+
+              <p>
+                <strong>Despertar:</strong>{" "}
+                {character.genius.awakening || "Não definido"}
+              </p>
             </article>
           </>
         )}
       </div>
+
+      {isTalentPickerOpen && (
+        <TalentPicker
+          characterTalents={character.talents}
+          onAddTalent={onAddTalent}
+          onRemoveTalent={onRemoveTalent}
+          onClose={() => setIsTalentPickerOpen(false)}
+        />
+      )}
     </aside>
   );
 }

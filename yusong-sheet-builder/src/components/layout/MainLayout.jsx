@@ -2,29 +2,43 @@ import BodyPanel from "../panels/BodyPanel";
 import LeftPanel from "../panels/LeftPanel";
 import RightPanel from "../panels/RightPanel";
 
-function MainLayout({ character, onChangeBodyArmor, onUpdateAttribute, onUseTalent, onUseGenius }) {
+function MainLayout({
+  character,
+  onChangeBodyArmor,
+  onChangeBodyDice,
+  onUseTalent,
+  onAddTalent,
+  onRemoveTalent,
+  onUseGenius,
+  onUpdateSkill,
+  onToggleCondition,
+}) {
   return (
     <div className="main-layout">
-      {/* Painel esquerdo: Talentos + Gênio */}
       <aside className="left-panel panel">
         <LeftPanel
           character={character}
           onUseTalent={onUseTalent}
+          onAddTalent={onAddTalent}
+          onRemoveTalent={onRemoveTalent}
           onUseGenius={onUseGenius}
         />
       </aside>
 
-      {/* Painel central: Corpo */}
       <main className="center-panel">
         <BodyPanel
           character={character}
           onChangeBodyArmor={onChangeBodyArmor}
+          onChangeBodyDice={onChangeBodyDice}
         />
       </main>
 
-      {/* Painel direito: Inventário, Perícias, Condições e Notas */}
       <aside className="right-panel panel">
-        <RightPanel character={character} />
+        <RightPanel
+          character={character}
+          onUpdateSkill={onUpdateSkill}
+          onToggleCondition={onToggleCondition}
+        />
       </aside>
     </div>
   );

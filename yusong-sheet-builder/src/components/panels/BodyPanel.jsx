@@ -250,9 +250,13 @@ function BodySilhouette() {
   );
 }
 
-function BodyPanel({ character, onChangeBodyArmor }) {
+function BodyPanel({ character, onChangeBodyArmor, onChangeBodyDice }) {
+  const memberDiceOptions = character.body
+    .filter((part) => part.type === "member")
+    .map((part) => part.dice);
+
   return (
-    <section className="body-panel panel">
+    <section className="body-panel panel center-panel">
       <div className="section-title">
         <h2>Corpo</h2>
       </div>
@@ -269,12 +273,13 @@ function BodyPanel({ character, onChangeBodyArmor }) {
             key={part.id}
             part={part}
             className={`body-part-floating ${partPositions[part.id]}`}
+            diceOptions={memberDiceOptions}
             onChangeArmor={onChangeBodyArmor}
+            onChangeDice={onChangeBodyDice}
           />
         ))}
       </div>
     </section>
   );
 }
-
 export default BodyPanel;

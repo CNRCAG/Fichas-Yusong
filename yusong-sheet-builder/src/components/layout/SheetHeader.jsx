@@ -1,10 +1,37 @@
+import { useEffect, useState } from "react";
 import { schools } from "../../data/schools";
-import StatCard from "../ui/StatCard";
 import { origins } from "../../data/origins";
 import { martialArts } from "../../data/martialArts";
+import StatCard from "../ui/StatCard";
 
 function SheetHeader({ character, onUpdateIdentity }) {
   const { identity, resources } = character;
+  const [localLevel, setLocalLevel] = useState(String(identity.level));
+
+  useEffect(() => {
+    setLocalLevel(String(identity.level));
+  }, [identity.level]);
+
+  function commitLevel() {
+    const numericValue = Number(localLevel);
+
+    if (!localLevel || Number.isNaN(numericValue)) {
+      setLocalLevel(String(identity.level));
+      return;
+    }
+
+    const limitedLevel = Math.min(20, Math.max(1, numericValue));
+
+    onUpdateIdentity("level", limitedLevel);
+    setLocalLevel(String(limitedLevel));
+  }
+
+  function handleLevelKeyDown(event) {
+    if (event.key === "Enter") {
+      commitLevel();
+      event.currentTarget.blur();
+    }
+  }
 
   return (
     <header className="sheet-header">
@@ -26,9 +53,12 @@ function SheetHeader({ character, onUpdateIdentity }) {
           <label>
             Nível
             <input
-              type="number"
-              value={identity.level}
-              onChange={(e) => onUpdateIdentity("level", Number(e.target.value))}
+              type="text"
+              inputMode="numeric"
+              value={localLevel}
+              onChange={(e) => setLocalLevel(e.target.value)}
+              onBlur={commitLevel}
+              onKeyDown={handleLevelKeyDown}
             />
           </label>
 
@@ -71,8 +101,12 @@ function SheetHeader({ character, onUpdateIdentity }) {
               onChange={(e) => onUpdateIdentity("type", e.target.value)}
             >
               <option value="prodigio">Prodígio</option>
-              <option value="diligente-persistente">Diligente Persistente</option>
-              <option value="diligente-super-humano">Diligente Super Humano</option>
+              <option value="diligente-persistente">
+                Diligente Persistente
+              </option>
+              <option value="diligente-super-humano">
+                Diligente Super Humano
+              </option>
             </select>
           </label>
 
@@ -80,7 +114,9 @@ function SheetHeader({ character, onUpdateIdentity }) {
             Classe
             <select
               value={identity.characterClass}
-              onChange={(e) => onUpdateIdentity("characterClass", e.target.value)}
+              onChange={(e) =>
+                onUpdateIdentity("characterClass", e.target.value)
+              }
             >
               <option value="bruto">Bruto</option>
               <option value="agil">Ágil</option>
@@ -89,7 +125,6 @@ function SheetHeader({ character, onUpdateIdentity }) {
             </select>
           </label>
 
-          {/* Origem como dropdown */}
           <label>
             Origem
             <select
@@ -97,15 +132,14 @@ function SheetHeader({ character, onUpdateIdentity }) {
               onChange={(e) => onUpdateIdentity("origin", e.target.value)}
             >
               <option value="">Escolha uma opção</option>
-              {origins.map((o) => (
-                <option key={o.name} value={o.name}>
-                  {o.name}
+              {origins.map((origin) => (
+                <option key={origin.name} value={origin.name}>
+                  {origin.name}
                 </option>
               ))}
             </select>
           </label>
 
-          {/* Arte Marcial como dropdown */}
           <label>
             Arte Marcial
             <select
@@ -113,9 +147,9 @@ function SheetHeader({ character, onUpdateIdentity }) {
               onChange={(e) => onUpdateIdentity("martialArt", e.target.value)}
             >
               <option value="">Escolha uma opção</option>
-              {martialArts.map((m) => (
-                <option key={m.name} value={m.name}>
-                  {m.name}
+              {martialArts.map((martialArt) => (
+                <option key={martialArt.name} value={martialArt.name}>
+                  {martialArt.name}
                 </option>
               ))}
             </select>
@@ -128,10 +162,12 @@ function SheetHeader({ character, onUpdateIdentity }) {
           label="Vida Real"
           value={`${resources.currentLife} / ${resources.maxLife}`}
         />
+
         <StatCard
           label="Stamina"
           value={`${resources.currentStamina} / ${resources.maxStamina}`}
         />
+
         <StatCard label="RD" value={resources.rd} />
         <StatCard label="Movimento" value={`${resources.movement}m`} />
         <StatCard label="Corrida" value={`${resources.run}m`} />

@@ -1,11 +1,18 @@
 import { getBodyPartState, getBodyPartStatusClass } from "../../utils/bodyUtils";
 
-function BodyPart({ part, className = "", onChangeArmor }) {
+function BodyPart({
+  part,
+  className = "",
+  diceOptions = [],
+  onChangeArmor,
+  onChangeDice,
+}) {
   const state = getBodyPartState(part.currentArmor);
   const statusClass = getBodyPartStatusClass(part.currentArmor);
 
   const isAtMinimum = part.currentArmor <= 0;
   const isAtMaximum = part.currentArmor >= part.maxArmor;
+  const isMember = part.type === "member";
 
   return (
     <article className={`body-part ${className}`}>
@@ -14,7 +21,21 @@ function BodyPart({ part, className = "", onChangeArmor }) {
         <span className={statusClass}>{state}</span>
       </div>
 
-      <strong className="body-dice">{part.dice}</strong>
+      {isMember ? (
+        <select
+          className="body-dice-select"
+          value={part.dice}
+          onChange={(event) => onChangeDice(part.id, event.target.value)}
+        >
+          {diceOptions.map((dice, index) => (
+            <option key={`${dice}-${index}`} value={dice}>
+              {dice}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <strong className="body-dice">{part.dice}</strong>
+      )}
 
       <div className="armor-control">
         <button

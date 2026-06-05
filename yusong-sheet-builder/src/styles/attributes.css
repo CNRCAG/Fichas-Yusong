@@ -53,6 +53,35 @@
   text-transform: uppercase;
 }
 
+.attribute-input {
+  width: 56px;
+  margin: 4px auto;
+  background: transparent;
+  border: 0;
+  color: #fff;
+  text-align: center;
+  font-size: 1.25rem;
+  font-weight: 800;
+  outline: none;
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.attribute-input::-webkit-outer-spin-button,
+.attribute-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.attribute-input:focus {
+  color: var(--school-color-light);
+}
+
+.section-title small {
+  color: #aaa;
+  font-size: 0.72rem;
+}
+
 .reaction-card strong {
   color: var(--school-color-light);
 }

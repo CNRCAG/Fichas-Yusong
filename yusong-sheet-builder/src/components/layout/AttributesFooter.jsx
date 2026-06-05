@@ -1,18 +1,8 @@
 import AttributeBox from "../attributes/AttributeBox";
+import { attributes } from "../../data/attributes";
 
-const attributeLabels = [
-  { key: "strength", label: "FOR", name: "Força" },
-  { key: "agility", label: "AGI", name: "Agilidade" },
-  { key: "constitution", label: "CON", name: "Constituição" },
-  { key: "size", label: "TAM", name: "Tamanho" },
-  { key: "power", label: "POD", name: "Poder" },
-  { key: "intelligence", label: "INT", name: "Inteligência" },
-  { key: "charisma", label: "CAR", name: "Carisma" },
-  { key: "reaction", label: "REA", name: "Reação" },
-  { key: "health", label: "SAU", name: "Saúde" },
-];
 
-function AttributesFooter({ character }) {
+function AttributesFooter({ character, onUpdateAttribute }) {
   return (
     <footer className="attributes-panel panel">
       <div className="section-title">
@@ -20,12 +10,14 @@ function AttributesFooter({ character }) {
       </div>
 
       <div className="attributes-grid">
-        {attributeLabels.map((attribute) => (
+        {attributes.map((attribute) => (
           <AttributeBox
             key={attribute.key}
+            attributeKey={attribute.key}
             label={attribute.label}
             name={attribute.name}
             value={character.attributes[attribute.key]}
+            onUpdateAttribute={onUpdateAttribute}
           />
         ))}
       </div>
