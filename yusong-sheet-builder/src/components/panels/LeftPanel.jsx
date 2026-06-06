@@ -4,6 +4,8 @@ import TalentCard from "../talents/TalentCard";
 import TalentPicker from "../talents/TalentPicker";
 import { origins } from "../../data/origins";
 import { martialArts } from "../../data/martialArts";
+import GeniusCard from "../ui/GeniusCard";
+import GeniusAbilityModal from "../ui/GeniusAbilityModal";
 
 const tabs = [
   { id: "talents", label: "Talentos" },
@@ -16,10 +18,17 @@ function LeftPanel({
   onAddTalent,
   onRemoveTalent,
   onUseGenius,
+  onUpdateGeniusName,
+  onAddGeniusAbility,
+  onUpdateGeniusAbility,
+  onRemoveGeniusAbility,
+  onUseGeniusAbility,
 }) {
   const [activeTab, setActiveTab] = useState("talents");
   const [currentBenefits, setCurrentBenefits] = useState([]);
   const [isTalentPickerOpen, setIsTalentPickerOpen] = useState(false);
+  const [isGeniusModalOpen, setIsGeniusModalOpen] = useState(false);
+  const [editingGeniusAbility, setEditingGeniusAbility] = useState(null);
 
   useEffect(() => {
     const benefits = [];
@@ -38,6 +47,32 @@ function LeftPanel({
 
     setCurrentBenefits(benefits);
   }, [character.identity.origin, character.identity.martialArt]);
+
+  function openNewGeniusAbilityModal() {
+    setEditingGeniusAbility(null);
+    setIsGeniusModalOpen(true);
+  }
+
+  function openEditGeniusAbilityModal(ability) {
+    setEditingGeniusAbility(ability);
+    setIsGeniusModalOpen(true);
+  }
+
+  function handleSaveGeniusAbility(abilityData) {
+    if (editingGeniusAbility) {
+      onUpdateGeniusAbility(editingGeniusAbility.id, abilityData);
+    } else {
+      onAddGeniusAbility(abilityData);
+    }
+
+    setIsGeniusModalOpen(false);
+    setEditingGeniusAbility(null);
+  }
+
+  function closeGeniusModal() {
+    setIsGeniusModalOpen(false);
+    setEditingGeniusAbility(null);
+  }
 
   return (
     <aside className="left-panel panel">
@@ -86,33 +121,48 @@ function LeftPanel({
 
         {activeTab === "genius" && (
           <>
-            <div className="section-title">
+            <div className="section-title section-title-row">
               <h2>Perícia de Gênio</h2>
+
+              <button
+                type="button"
+                className="add-button"
+                onClick={openNewGeniusAbilityModal}
+              >
+                + Habilidade
+              </button>
             </div>
 
-            <article className="genius-card">
-              <h3>{character.genius.name || "Sem nome definido"}</h3>
+            <div className="genius-name-field">
+              <label>
+                Nome da Perícia
+                <input
+                  type="text"
+                  value={character.genius.name}
+                  onChange={(event) => onUpdateGeniusName(event.target.value)}
+                  placeholder="Ex: Berserker Imortal"
+                />
+              </label>
+            </div>
 
-              <p>
-                <strong>Nível 1:</strong>{" "}
-                {character.genius.level1 || "Não definido"}
-              </p>
-
-              <p>
-                <strong>Nível 2:</strong>{" "}
-                {character.genius.level2 || "Não definido"}
-              </p>
-
-              <p>
-                <strong>Nível 3:</strong>{" "}
-                {character.genius.level3 || "Não definido"}
-              </p>
-
-              <p>
-                <strong>Despertar:</strong>{" "}
-                {character.genius.awakening || "Não definido"}
-              </p>
-            </article>
+            <div className="genius-ability-list">
+              {character.genius.abilities.length > 0 ? (
+                character.genius.abilities.map((ability) => (
+                  <GeniusCard
+                    key={ability.id}
+                    ability={ability}
+                    currentStamina={character.resources.currentStamina}
+                    onEdit={openEditGeniusAbilityModal}
+                    onRemove={onRemoveGeniusAbility}
+                    onUse={onUseGeniusAbility}
+                  />
+                ))
+              ) : (
+                <p className="empty-message">
+                  Nenhuma habilidade de gênio adicionada.
+                </p>
+              )}
+            </div>
           </>
         )}
       </div>
@@ -123,6 +173,14 @@ function LeftPanel({
           onAddTalent={onAddTalent}
           onRemoveTalent={onRemoveTalent}
           onClose={() => setIsTalentPickerOpen(false)}
+        />
+      )}
+
+      {isGeniusModalOpen && (
+        <GeniusAbilityModal
+          ability={editingGeniusAbility}
+          onSave={handleSaveGeniusAbility}
+          onClose={closeGeniusModal}
         />
       )}
     </aside>

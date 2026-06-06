@@ -12,6 +12,14 @@ function MainLayout({
   onUseGenius,
   onUpdateSkill,
   onToggleCondition,
+  onUpdateGeniusName,
+  onAddGeniusAbility,
+  onUpdateGeniusAbility,
+  onRemoveGeniusAbility,
+  onUseGeniusAbility,
+  onAddInventoryItem,
+  onUpdateInventoryItem,
+  onRemoveInventoryItem,
 }) {
   return (
     <div className="main-layout">
@@ -22,6 +30,11 @@ function MainLayout({
           onAddTalent={onAddTalent}
           onRemoveTalent={onRemoveTalent}
           onUseGenius={onUseGenius}
+          onUpdateGeniusName={onUpdateGeniusName}
+          onAddGeniusAbility={onAddGeniusAbility}
+          onUpdateGeniusAbility={onUpdateGeniusAbility}
+          onRemoveGeniusAbility={onRemoveGeniusAbility}
+          onUseGeniusAbility={onUseGeniusAbility}
         />
       </aside>
 
@@ -38,6 +51,9 @@ function MainLayout({
           character={character}
           onUpdateSkill={onUpdateSkill}
           onToggleCondition={onToggleCondition}
+          onAddInventoryItem={onAddInventoryItem}
+          onUpdateInventoryItem={onUpdateInventoryItem}
+          onRemoveInventoryItem={onRemoveInventoryItem}
         />
       </aside>
     </div>

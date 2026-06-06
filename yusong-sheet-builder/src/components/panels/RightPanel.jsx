@@ -2,6 +2,8 @@ import { useState } from "react";
 import PanelTabs from "../ui/PanelTabs";
 import { skills } from "../../data/skills";
 import { conditions } from "../../data/conditions";
+import InventoryItemModal from "../inventory/InventoryItemModal";
+import InventoryItemCard from "../inventory/InventoryItemCard";
 
 const tabs = [
   { id: "inventory", label: "Inventário" },
@@ -10,10 +12,19 @@ const tabs = [
   { id: "notes", label: "Notas" },
 ];
 
-function RightPanel({ character, onUpdateSkill, onToggleCondition }) {
+function RightPanel({
+  character,
+  onUpdateSkill,
+  onToggleCondition,
+  onAddInventoryItem,
+  onUpdateInventoryItem,
+  onRemoveInventoryItem,
+}) {
   const [activeTab, setActiveTab] = useState("inventory");
   const [openSkillId, setOpenSkillId] = useState(null);
   const [openConditionId, setOpenConditionId] = useState(null);
+  const [isInventoryModalOpen, setIsInventoryModalOpen] = useState(false);
+  const [editingInventoryItem, setEditingInventoryItem] = useState(null);
 
   function toggleSkill(skillId) {
     setOpenSkillId((current) => (current === skillId ? null : skillId));
@@ -25,6 +36,31 @@ function RightPanel({ character, onUpdateSkill, onToggleCondition }) {
     );
   }
 
+  function openNewInventoryItemModal() {
+    setEditingInventoryItem(null);
+    setIsInventoryModalOpen(true);
+  }
+
+  function openEditInventoryItemModal(item) {
+    setEditingInventoryItem(item);
+    setIsInventoryModalOpen(true);
+  }
+
+  function closeInventoryModal() {
+    setEditingInventoryItem(null);
+    setIsInventoryModalOpen(false);
+  }
+
+  function handleSaveInventoryItem(itemData) {
+    if (editingInventoryItem) {
+      onUpdateInventoryItem(editingInventoryItem.id, itemData);
+    } else {
+      onAddInventoryItem(itemData);
+    }
+
+    closeInventoryModal();
+  }
+
   return (
     <aside className="right-panel panel">
       <PanelTabs tabs={tabs} activeTab={activeTab} onChange={setActiveTab} />
@@ -32,23 +68,41 @@ function RightPanel({ character, onUpdateSkill, onToggleCondition }) {
       <div className="panel-content">
         {activeTab === "inventory" && (
           <>
-            <div className="section-title">
+            <div className="section-title section-title-row">
               <h2>Inventário</h2>
+
+              <button
+                type="button"
+                className="add-button"
+                onClick={openNewInventoryItemModal}
+              >
+                + Item
+              </button>
             </div>
 
             <div className="inventory-section">
               <h3>Carregados</h3>
 
-              <div className="inventory-row">
+              <div className="inventory-row inventory-header-row">
                 <span>Item</span>
-                <span>Dano</span>
-                <span>Uso</span>
+                <span>Qtd.</span>
+              </div>
+
+              <div className="inventory-item-list">
+                {character.inventory.length > 0 ? (
+                  character.inventory.map((item) => (
+                    <InventoryItemCard
+                      key={item.id}
+                      item={item}
+                      onEdit={openEditInventoryItemModal}
+                      onRemove={onRemoveInventoryItem}
+                    />
+                  ))
+                ) : (
+                  <p className="empty-message">Nenhum item adicionado.</p>
+                )}
               </div>
             </div>
-
-            <button type="button" className="add-button">
-              + Adicionar Item
-            </button>
           </>
         )}
 
@@ -179,6 +233,14 @@ function RightPanel({ character, onUpdateSkill, onToggleCondition }) {
           </>
         )}
       </div>
+
+      {isInventoryModalOpen && (
+        <InventoryItemModal
+          item={editingInventoryItem}
+          onSave={handleSaveInventoryItem}
+          onClose={closeInventoryModal}
+        />
+      )}
     </aside>
   );
 }

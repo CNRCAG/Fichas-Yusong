@@ -52,10 +52,7 @@ export const characterInitialState = {
 
   genius: {
     name: "",
-    level1: "",
-    level2: "",
-    level3: "",
-    awakening: "",
+    abilities: [],
   },
 
   inventory: [],

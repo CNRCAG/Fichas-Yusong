@@ -218,7 +218,39 @@ function App() {
     });
   }
 
+  function handleAddInventoryItem(itemData) {
+    const newItem = {
+      id: crypto.randomUUID(),
+      ...itemData,
+    };
 
+    setCharacter((prev) => ({
+      ...prev,
+      inventory: [...prev.inventory, newItem],
+    }));
+  }
+
+  function handleUpdateInventoryItem(itemId, itemData) {
+    setCharacter((prev) => ({
+      ...prev,
+      inventory: prev.inventory.map((item) =>
+        item.id === itemId
+          ? {
+              ...item,
+              ...itemData,
+            }
+          : item
+      ),
+    }));
+  }
+
+  function handleRemoveInventoryItem(itemId) {
+    setCharacter((prev) => ({
+      ...prev,
+      inventory: prev.inventory.filter((item) => item.id !== itemId),
+    }));
+  }
+  
   function handleToggleCondition(conditionId) {
     setCharacter((prev) => {
       const currentValue = prev.conditions?.[conditionId] ?? false;
@@ -243,6 +275,98 @@ function App() {
         [skillId]: Math.min(5, Math.max(0, numericValue)),
       },
     }));
+  }
+
+
+  function handleUpdateGeniusName(value) {
+    setCharacter((prev) => ({
+      ...prev,
+      genius: {
+        ...prev.genius,
+        name: value,
+      },
+    }));
+  }
+
+  function handleAddGeniusAbility(abilityData) {
+    const newAbility = {
+      id: crypto.randomUUID(),
+      name: abilityData.name || "Nova Habilidade",
+      level: abilityData.level || "Nível 1",
+      action: abilityData.action || "Passiva",
+      staminaCost: Number(abilityData.staminaCost) || 0,
+      description: abilityData.description || "",
+    };
+
+    setCharacter((prev) => ({
+      ...prev,
+      genius: {
+        ...prev.genius,
+        abilities: [...prev.genius.abilities, newAbility],
+      },
+    }));
+  }
+
+  function handleUpdateGeniusAbility(abilityId, fieldOrData, value) {
+    setCharacter((prev) => ({
+      ...prev,
+      genius: {
+        ...prev.genius,
+        abilities: prev.genius.abilities.map((ability) => {
+          if (ability.id !== abilityId) return ability;
+
+          if (typeof fieldOrData === "object") {
+            return {
+              ...ability,
+              ...fieldOrData,
+              staminaCost: Number(fieldOrData.staminaCost) || 0,
+            };
+          }
+
+          return {
+            ...ability,
+            [fieldOrData]:
+              fieldOrData === "staminaCost" ? Math.max(0, Number(value)) : value,
+          };
+        }),
+      },
+    }));
+  }
+
+  function handleRemoveGeniusAbility(abilityId) {
+    setCharacter((prev) => ({
+      ...prev,
+      genius: {
+        ...prev.genius,
+        abilities: prev.genius.abilities.filter(
+          (ability) => ability.id !== abilityId
+        ),
+      },
+    }));
+  }
+
+  function handleUseGeniusAbility(abilityId) {
+    setCharacter((prev) => {
+      const ability = prev.genius.abilities.find(
+        (currentAbility) => currentAbility.id === abilityId
+      );
+
+      if (!ability) return prev;
+
+      const cost = Number(ability.staminaCost) || 0;
+
+      if (cost <= 0 || prev.resources.currentStamina < cost) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        resources: {
+          ...prev.resources,
+          currentStamina: prev.resources.currentStamina - cost,
+        },
+      };
+    });
   }
 
   function handleAddTalent(talent) {
@@ -338,6 +462,14 @@ function App() {
           onUseGenius={handleUseGenius}
           onUpdateSkill={handleUpdateSkill}
           onToggleCondition={handleToggleCondition}
+          onUpdateGeniusName={handleUpdateGeniusName}
+          onAddGeniusAbility={handleAddGeniusAbility}
+          onUpdateGeniusAbility={handleUpdateGeniusAbility}
+          onRemoveGeniusAbility={handleRemoveGeniusAbility}
+          onUseGeniusAbility={handleUseGeniusAbility}
+          onAddInventoryItem={handleAddInventoryItem}
+          onUpdateInventoryItem={handleUpdateInventoryItem}
+          onRemoveInventoryItem={handleRemoveInventoryItem}
         />
 
         <AttributesFooter
