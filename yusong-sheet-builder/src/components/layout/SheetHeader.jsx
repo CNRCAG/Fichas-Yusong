@@ -86,6 +86,8 @@ function SheetHeader({ character, onUpdateIdentity }) {
               value={identity.school}
               onChange={(e) => onUpdateIdentity("school", e.target.value)}
             >
+              <option value="">Escolha uma escola</option>
+
               {schools.map((school) => (
                 <option key={school.id} value={school.id}>
                   {school.name}
@@ -100,13 +102,10 @@ function SheetHeader({ character, onUpdateIdentity }) {
               value={identity.type}
               onChange={(e) => onUpdateIdentity("type", e.target.value)}
             >
+              <option value="">Escolha um tipo</option>
               <option value="prodigio">Prodígio</option>
-              <option value="diligente-persistente">
-                Diligente Persistente
-              </option>
-              <option value="diligente-super-humano">
-                Diligente Super Humano
-              </option>
+              <option value="diligente-persistente">Diligente Persistente</option>
+              <option value="diligente-super-humano">Diligente Super Humano</option>
             </select>
           </label>
 
@@ -114,10 +113,9 @@ function SheetHeader({ character, onUpdateIdentity }) {
             Classe
             <select
               value={identity.characterClass}
-              onChange={(e) =>
-                onUpdateIdentity("characterClass", e.target.value)
-              }
+              onChange={(e) => onUpdateIdentity("characterClass", e.target.value)}
             >
+              <option value="">Escolha uma classe</option>
               <option value="bruto">Bruto</option>
               <option value="agil">Ágil</option>
               <option value="tatico">Tático</option>

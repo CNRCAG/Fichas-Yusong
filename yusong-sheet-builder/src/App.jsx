@@ -1,6 +1,17 @@
 import { useState, useEffect } from "react";
+import {
+  createNewCharacterState,
+  loadCharactersFromStorage,
+  saveCharactersToStorage,
+  loadActiveCharacterId,
+  saveActiveCharacterId,
+  clearActiveCharacterId,
+} from "./utils/storage";
+
+import CharacterManager from "./components/characters/CharacterManager";
 import { characterInitialState } from "./data/characterInitialState";
 import { getSchoolById } from "./data/schools";
+
 import {
   calculateLife,
   calculateStamina,
@@ -25,12 +36,52 @@ import "./styles/header.css";
 import "./styles/panels.css";
 import "./styles/body.css";
 import "./styles/attributes.css";
+import "./styles/characters.css";
 
 function App() {
-  const [character, setCharacter] = useState(characterInitialState);
-  const selectedSchool = getSchoolById(character.identity.school);
+  const [characters, setCharacters] = useState(() =>
+    loadCharactersFromStorage()
+  );
+
+  const [activeCharacterId, setActiveCharacterId] = useState(() =>
+    loadActiveCharacterId()
+  );
+
+  const character =
+    characters.find(
+      (currentCharacter) => currentCharacter.id === activeCharacterId
+    ) || null;
+
+  const selectedSchool =
+    character?.identity?.school && getSchoolById(character.identity.school)
+      ? getSchoolById(character.identity.school)
+      : { themeClass: "theme-neutral" };
 
   useEffect(() => {
+    saveCharactersToStorage(characters);
+  }, [characters]);
+
+  function updateActiveCharacter(updater) {
+    setCharacters((prevCharacters) =>
+      prevCharacters.map((currentCharacter) => {
+        if (currentCharacter.id !== activeCharacterId) {
+          return currentCharacter;
+        }
+
+        const updatedCharacter =
+          typeof updater === "function" ? updater(currentCharacter) : updater;
+
+        return {
+          ...updatedCharacter,
+          updatedAt: new Date().toISOString(),
+        };
+      })
+    );
+  }
+
+  useEffect(() => {
+    if (!character) return;
+
     const newLife = calculateLife(
       character.attributes.health,
       character.identity.level
@@ -69,7 +120,7 @@ function App() {
       character.attributes.agility
     );
 
-    setCharacter((prev) => {
+    updateActiveCharacter((prev) => {
       let memberDiceIndex = 0;
 
       return {
@@ -77,10 +128,21 @@ function App() {
 
         resources: {
           ...prev.resources,
-          currentLife: Math.min(prev.resources.currentLife, newLife),
+
+          currentLife:
+            prev.resources.maxLife === 0
+              ? newLife
+              : Math.min(prev.resources.currentLife, newLife),
+
           maxLife: newLife,
-          currentStamina: Math.min(prev.resources.currentStamina, newStamina),
+
+          currentStamina:
+            prev.resources.maxStamina === 0
+              ? newStamina
+              : Math.min(prev.resources.currentStamina, newStamina),
+
           maxStamina: newStamina,
+
           rd: newRD,
           movement: newMovement,
           run: newRun,
@@ -97,8 +159,104 @@ function App() {
               ...part,
               armor: newVitalArmor,
               maxArmor: newVitalArmor,
-              currentArmor: Math.min(part.currentArmor, newVitalArmor),
+              currentArmor:
+                part.maxArmor === 0
+                  ? newVitalArmor
+                  : Math.min(part.currentArmor, newVitalArmor),
             };
+          }
+
+          if (part.type === "member") {
+            const newDice = memberDicePool[memberDiceIndex] || part.dice;
+            const newArmor = calculateMemberArmor(newDice);
+
+            memberDiceIndex += 1;
+
+            return {
+              ...part,
+              dice: newDice,
+              armor: newArmor,
+              maxArmor: newArmor,
+              currentArmor:
+                part.maxArmor === 0
+                  ? newArmor
+                  : Math.min(part.currentArmor, newArmor),
+            };
+          }
+
+          return part;
+        }),
+      };
+    });
+  }, [activeCharacterId, character?.attributes, character?.identity?.level]);
+
+  function createFreshCharacter() {
+    const base = characterInitialState;
+
+    const newLife = calculateLife(base.attributes.health, base.identity.level);
+
+    const newStamina = calculateStamina(
+      base.attributes.constitution,
+      base.attributes.health
+    );
+
+    const newMovement = calculateMovement(
+      base.attributes.agility,
+      base.attributes.size
+    );
+
+    const newRun = calculateRun(newMovement);
+    const newRD = calculateRD(base.attributes.size);
+
+    const newDodge = calculateDodge(
+      base.attributes.agility,
+      base.attributes.reaction
+    );
+
+    const newCounterAttack = calculateCounterAttack(
+      base.attributes.agility,
+      base.attributes.intelligence
+    );
+
+    const newVitalArmor = calculateVitalArmor(
+      base.attributes.constitution,
+      base.attributes.health
+    );
+
+    const memberDicePool = calculateMemberDicePool(
+      base.attributes.strength,
+      base.attributes.agility
+    );
+
+    let memberDiceIndex = 0;
+
+    return {
+      ...base,
+
+      resources: {
+        ...base.resources,
+        currentLife: newLife,
+        maxLife: newLife,
+        currentStamina: newStamina,
+        maxStamina: newStamina,
+        rd: newRD,
+        movement: newMovement,
+        run: newRun,
+      },
+
+      reactions: {
+        dodge: newDodge,
+        counterAttack: newCounterAttack,
+      },
+
+      body: base.body.map((part) => {
+        if (part.type === "vital") {
+          return {
+            ...part,
+            armor: newVitalArmor,
+            maxArmor: newVitalArmor,
+            currentArmor: newVitalArmor,
+          };
         }
 
         if (part.type === "member") {
@@ -112,19 +270,72 @@ function App() {
             dice: newDice,
             armor: newArmor,
             maxArmor: newArmor,
-            currentArmor: Math.min(part.currentArmor, newArmor),
+            currentArmor: newArmor,
           };
         }
 
         return part;
       }),
     };
-  });
-}, [character.attributes, character.identity.level]);
+  }
 
-  // Atualiza qualquer campo do identity
-    function handleUpdateIdentity(field, value) {
-    setCharacter((prev) => {
+  function handleCreateCharacter() {
+    const freshCharacter = createFreshCharacter();
+    const newCharacter = createNewCharacterState(freshCharacter);
+
+    setCharacters((prevCharacters) => [...prevCharacters, newCharacter]);
+    setActiveCharacterId(newCharacter.id);
+    saveActiveCharacterId(newCharacter.id);
+  }
+
+  function handleOpenCharacter(characterId) {
+    setActiveCharacterId(characterId);
+    saveActiveCharacterId(characterId);
+  }
+
+  function handleBackToCharacterList() {
+    setActiveCharacterId(null);
+    clearActiveCharacterId();
+  }
+
+  function handleDeleteCharacter(characterId) {
+    const confirmDelete = window.confirm(
+      "Tem certeza que deseja excluir este personagem?"
+    );
+
+    if (!confirmDelete) return;
+
+    setCharacters((prevCharacters) =>
+      prevCharacters.filter((currentCharacter) => currentCharacter.id !== characterId)
+    );
+
+    if (activeCharacterId === characterId) {
+      setActiveCharacterId(null);
+      clearActiveCharacterId();
+    }
+  }
+
+  function handleResetCharacter() {
+    if (!character) return;
+
+    const confirmReset = window.confirm(
+      "Tem certeza que deseja resetar esta ficha? Isso apagará os dados dela."
+    );
+
+    if (!confirmReset) return;
+
+    const freshCharacter = {
+      ...createFreshCharacter(),
+      id: activeCharacterId,
+      createdAt: character.createdAt,
+      updatedAt: new Date().toISOString(),
+    };
+
+    updateActiveCharacter(freshCharacter);
+  }
+
+  function handleUpdateIdentity(field, value) {
+    updateActiveCharacter((prev) => {
       let finalValue = value;
 
       if (field === "level") {
@@ -147,11 +358,10 @@ function App() {
     });
   }
 
-  // Atualiza características
   function handleUpdateAttribute(field, value) {
     const numericValue = Number(value);
 
-    setCharacter((prev) => ({
+    updateActiveCharacter((prev) => ({
       ...prev,
       attributes: {
         ...prev.attributes,
@@ -160,9 +370,8 @@ function App() {
     }));
   }
 
-  // Altera armadura dos membros
   function handleChangeBodyArmor(partId, amount) {
-    setCharacter((prev) => ({
+    updateActiveCharacter((prev) => ({
       ...prev,
       body: prev.body.map((part) => {
         if (part.id !== partId) return part;
@@ -180,219 +389,8 @@ function App() {
     }));
   }
 
-  // Usa talento e gasta stamina
-  function handleUseTalent(talentId) {
-    setCharacter((prev) => {
-      const talent = prev.talents.find((t) => t.id === talentId);
-
-      if (!talent || prev.resources.currentStamina < talent.staminaCost) {
-        return prev;
-      }
-
-      return {
-        ...prev,
-        resources: {
-          ...prev.resources,
-          currentStamina: prev.resources.currentStamina - talent.staminaCost,
-        },
-      };
-    });
-  }
-
-  // Usa habilidade de gênio e gasta stamina
-  function handleUseGenius(level) {
-    const cost = 10;
-
-    setCharacter((prev) => {
-      if (prev.resources.currentStamina < cost) {
-        return prev;
-      }
-
-      return {
-        ...prev,
-        resources: {
-          ...prev.resources,
-          currentStamina: prev.resources.currentStamina - cost,
-        },
-      };
-    });
-  }
-
-  function handleAddInventoryItem(itemData) {
-    const newItem = {
-      id: crypto.randomUUID(),
-      ...itemData,
-    };
-
-    setCharacter((prev) => ({
-      ...prev,
-      inventory: [...prev.inventory, newItem],
-    }));
-  }
-
-  function handleUpdateInventoryItem(itemId, itemData) {
-    setCharacter((prev) => ({
-      ...prev,
-      inventory: prev.inventory.map((item) =>
-        item.id === itemId
-          ? {
-              ...item,
-              ...itemData,
-            }
-          : item
-      ),
-    }));
-  }
-
-  function handleRemoveInventoryItem(itemId) {
-    setCharacter((prev) => ({
-      ...prev,
-      inventory: prev.inventory.filter((item) => item.id !== itemId),
-    }));
-  }
-  
-  function handleToggleCondition(conditionId) {
-    setCharacter((prev) => {
-      const currentValue = prev.conditions?.[conditionId] ?? false;
-
-      return {
-        ...prev,
-        conditions: {
-          ...prev.conditions,
-          [conditionId]: !currentValue,
-        },
-      };
-    });
-  }
-
-  function handleUpdateSkill(skillId, value) {
-    const numericValue = Number(value);
-
-    setCharacter((prev) => ({
-      ...prev,
-      skills: {
-        ...prev.skills,
-        [skillId]: Math.min(5, Math.max(0, numericValue)),
-      },
-    }));
-  }
-
-
-  function handleUpdateGeniusName(value) {
-    setCharacter((prev) => ({
-      ...prev,
-      genius: {
-        ...prev.genius,
-        name: value,
-      },
-    }));
-  }
-
-  function handleAddGeniusAbility(abilityData) {
-    const newAbility = {
-      id: crypto.randomUUID(),
-      name: abilityData.name || "Nova Habilidade",
-      level: abilityData.level || "Nível 1",
-      action: abilityData.action || "Passiva",
-      staminaCost: Number(abilityData.staminaCost) || 0,
-      description: abilityData.description || "",
-    };
-
-    setCharacter((prev) => ({
-      ...prev,
-      genius: {
-        ...prev.genius,
-        abilities: [...prev.genius.abilities, newAbility],
-      },
-    }));
-  }
-
-  function handleUpdateGeniusAbility(abilityId, fieldOrData, value) {
-    setCharacter((prev) => ({
-      ...prev,
-      genius: {
-        ...prev.genius,
-        abilities: prev.genius.abilities.map((ability) => {
-          if (ability.id !== abilityId) return ability;
-
-          if (typeof fieldOrData === "object") {
-            return {
-              ...ability,
-              ...fieldOrData,
-              staminaCost: Number(fieldOrData.staminaCost) || 0,
-            };
-          }
-
-          return {
-            ...ability,
-            [fieldOrData]:
-              fieldOrData === "staminaCost" ? Math.max(0, Number(value)) : value,
-          };
-        }),
-      },
-    }));
-  }
-
-  function handleRemoveGeniusAbility(abilityId) {
-    setCharacter((prev) => ({
-      ...prev,
-      genius: {
-        ...prev.genius,
-        abilities: prev.genius.abilities.filter(
-          (ability) => ability.id !== abilityId
-        ),
-      },
-    }));
-  }
-
-  function handleUseGeniusAbility(abilityId) {
-    setCharacter((prev) => {
-      const ability = prev.genius.abilities.find(
-        (currentAbility) => currentAbility.id === abilityId
-      );
-
-      if (!ability) return prev;
-
-      const cost = Number(ability.staminaCost) || 0;
-
-      if (cost <= 0 || prev.resources.currentStamina < cost) {
-        return prev;
-      }
-
-      return {
-        ...prev,
-        resources: {
-          ...prev.resources,
-          currentStamina: prev.resources.currentStamina - cost,
-        },
-      };
-    });
-  }
-
-  function handleAddTalent(talent) {
-    setCharacter((prev) => {
-      const alreadyHasTalent = prev.talents.some(
-        (currentTalent) => currentTalent.id === talent.id
-      );
-
-      if (alreadyHasTalent) return prev;
-
-      return {
-        ...prev,
-        talents: [...prev.talents, talent],
-      };
-    });
-  }
-
-  function handleRemoveTalent(talentId) {
-    setCharacter((prev) => ({
-      ...prev,
-      talents: prev.talents.filter((talent) => talent.id !== talentId),
-    }));
-  }
-
   function handleChangeBodyDice(partId, newDice) {
-    setCharacter((prev) => {
+    updateActiveCharacter((prev) => {
       const selectedPart = prev.body.find((part) => part.id === partId);
 
       if (!selectedPart || selectedPart.type !== "member") {
@@ -444,9 +442,246 @@ function App() {
     });
   }
 
+  function handleUseTalent(talentId) {
+    updateActiveCharacter((prev) => {
+      const talent = prev.talents.find((currentTalent) => currentTalent.id === talentId);
+
+      if (!talent || prev.resources.currentStamina < talent.staminaCost) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        resources: {
+          ...prev.resources,
+          currentStamina: prev.resources.currentStamina - talent.staminaCost,
+        },
+      };
+    });
+  }
+
+  function handleAddTalent(talent) {
+    updateActiveCharacter((prev) => {
+      const alreadyHasTalent = prev.talents.some(
+        (currentTalent) => currentTalent.id === talent.id
+      );
+
+      if (alreadyHasTalent) return prev;
+
+      return {
+        ...prev,
+        talents: [...prev.talents, talent],
+      };
+    });
+  }
+
+  function handleRemoveTalent(talentId) {
+    updateActiveCharacter((prev) => ({
+      ...prev,
+      talents: prev.talents.filter((talent) => talent.id !== talentId),
+    }));
+  }
+
+  function handleUseGenius() {
+    const cost = 10;
+
+    updateActiveCharacter((prev) => {
+      if (prev.resources.currentStamina < cost) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        resources: {
+          ...prev.resources,
+          currentStamina: prev.resources.currentStamina - cost,
+        },
+      };
+    });
+  }
+
+  function handleUpdateGeniusName(value) {
+    updateActiveCharacter((prev) => ({
+      ...prev,
+      genius: {
+        ...prev.genius,
+        name: value,
+      },
+    }));
+  }
+
+  function handleAddGeniusAbility(abilityData) {
+    const newAbility = {
+      id: crypto.randomUUID(),
+      name: abilityData.name || "Nova Habilidade",
+      level: abilityData.level || "Nível 1",
+      action: abilityData.action || "Passiva",
+      staminaCost: Number(abilityData.staminaCost) || 0,
+      description: abilityData.description || "",
+    };
+
+    updateActiveCharacter((prev) => ({
+      ...prev,
+      genius: {
+        ...prev.genius,
+        abilities: [...prev.genius.abilities, newAbility],
+      },
+    }));
+  }
+
+  function handleUpdateGeniusAbility(abilityId, fieldOrData, value) {
+    updateActiveCharacter((prev) => ({
+      ...prev,
+      genius: {
+        ...prev.genius,
+        abilities: prev.genius.abilities.map((ability) => {
+          if (ability.id !== abilityId) return ability;
+
+          if (typeof fieldOrData === "object") {
+            return {
+              ...ability,
+              ...fieldOrData,
+              staminaCost: Number(fieldOrData.staminaCost) || 0,
+            };
+          }
+
+          return {
+            ...ability,
+            [fieldOrData]:
+              fieldOrData === "staminaCost" ? Math.max(0, Number(value)) : value,
+          };
+        }),
+      },
+    }));
+  }
+
+  function handleRemoveGeniusAbility(abilityId) {
+    updateActiveCharacter((prev) => ({
+      ...prev,
+      genius: {
+        ...prev.genius,
+        abilities: prev.genius.abilities.filter(
+          (ability) => ability.id !== abilityId
+        ),
+      },
+    }));
+  }
+
+  function handleUseGeniusAbility(abilityId) {
+    updateActiveCharacter((prev) => {
+      const ability = prev.genius.abilities.find(
+        (currentAbility) => currentAbility.id === abilityId
+      );
+
+      if (!ability) return prev;
+
+      const cost = Number(ability.staminaCost) || 0;
+
+      if (cost <= 0 || prev.resources.currentStamina < cost) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        resources: {
+          ...prev.resources,
+          currentStamina: prev.resources.currentStamina - cost,
+        },
+      };
+    });
+  }
+
+  function handleAddInventoryItem(itemData) {
+    const newItem = {
+      id: crypto.randomUUID(),
+      ...itemData,
+    };
+
+    updateActiveCharacter((prev) => ({
+      ...prev,
+      inventory: [...prev.inventory, newItem],
+    }));
+  }
+
+  function handleUpdateInventoryItem(itemId, itemData) {
+    updateActiveCharacter((prev) => ({
+      ...prev,
+      inventory: prev.inventory.map((item) =>
+        item.id === itemId
+          ? {
+              ...item,
+              ...itemData,
+            }
+          : item
+      ),
+    }));
+  }
+
+  function handleRemoveInventoryItem(itemId) {
+    updateActiveCharacter((prev) => ({
+      ...prev,
+      inventory: prev.inventory.filter((item) => item.id !== itemId),
+    }));
+  }
+
+  function handleUpdateSkill(skillId, value) {
+    const numericValue = Number(value);
+
+    updateActiveCharacter((prev) => ({
+      ...prev,
+      skills: {
+        ...prev.skills,
+        [skillId]: Math.min(5, Math.max(0, numericValue)),
+      },
+    }));
+  }
+
+  function handleToggleCondition(conditionId) {
+    updateActiveCharacter((prev) => {
+      const currentValue = prev.conditions?.[conditionId] ?? false;
+
+      return {
+        ...prev,
+        conditions: {
+          ...prev.conditions,
+          [conditionId]: !currentValue,
+        },
+      };
+    });
+  }
+
+  if (!character) {
+    return (
+      <CharacterManager
+        characters={characters}
+        onCreateCharacter={handleCreateCharacter}
+        onOpenCharacter={handleOpenCharacter}
+        onDeleteCharacter={handleDeleteCharacter}
+      />
+    );
+  }
+
   return (
     <main className={`app-page ${selectedSchool.themeClass}`}>
       <section className="character-sheet">
+        <div className="sheet-actions">
+          <button
+            type="button"
+            className="back-to-list-button"
+            onClick={handleBackToCharacterList}
+          >
+            Voltar para Personagens
+          </button>
+
+          <button
+            type="button"
+            className="reset-sheet-button"
+            onClick={handleResetCharacter}
+          >
+            Resetar Ficha
+          </button>
+        </div>
+
         <SheetHeader
           character={character}
           onUpdateIdentity={handleUpdateIdentity}

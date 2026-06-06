@@ -42,3 +42,42 @@
     margin-bottom: 15px;
   }
 }
+
+.sheet-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+.reset-sheet-button {
+  border: 1px solid rgba(255, 90, 90, 0.75);
+  background: transparent;
+  color: #ff9b9b;
+  padding: 6px 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.reset-sheet-button:hover {
+  background: rgba(255, 90, 90, 0.12);
+}
+
+.sheet-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.back-to-list-button {
+  border: 1px solid var(--school-color-light);
+  background: transparent;
+  color: #fff;
+  padding: 6px 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.back-to-list-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}

@@ -27,3 +27,10 @@
   --school-color: #555555;
   --school-color-light: #888888;
 }
+
+.theme-neutral {
+  --school-color: #4f4f4f;
+  --school-color-light: #a8a8a8;
+  --school-color-dark: #242424;
+  --school-glow: rgba(168, 168, 168, 0.35);
+}
