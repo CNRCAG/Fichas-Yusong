@@ -1,44 +1,84 @@
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 import { schools } from "../../data/schools";
+import StatCard from "../ui/StatCard";
 import { origins } from "../../data/origins";
 import { martialArts } from "../../data/martialArts";
-import StatCard from "../ui/StatCard";
 
-function SheetHeader({ character, onUpdateIdentity }) {
+function SheetHeader({ character, onUpdateIdentity, onUpdateResource }) {
   const { identity, resources } = character;
-  const [localLevel, setLocalLevel] = useState(String(identity.level));
+  const fileInputRef = useRef(null);
 
-  useEffect(() => {
-    setLocalLevel(String(identity.level));
-  }, [identity.level]);
+  function handleImageClick() {
+    fileInputRef.current?.click();
+  }
 
-  function commitLevel() {
-    const numericValue = Number(localLevel);
+  function handleImageChange(event) {
+    const file = event.target.files?.[0];
 
-    if (!localLevel || Number.isNaN(numericValue)) {
-      setLocalLevel(String(identity.level));
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Escolha um arquivo de imagem válido.");
       return;
     }
 
-    const limitedLevel = Math.min(20, Math.max(1, numericValue));
+    const reader = new FileReader();
 
-    onUpdateIdentity("level", limitedLevel);
-    setLocalLevel(String(limitedLevel));
+    reader.onload = () => {
+      onUpdateIdentity("image", reader.result);
+    };
+
+    reader.readAsDataURL(file);
   }
 
-  function handleLevelKeyDown(event) {
-    if (event.key === "Enter") {
-      commitLevel();
-      event.currentTarget.blur();
+  function handleRemoveImage(event) {
+    event.stopPropagation();
+    onUpdateIdentity("image", "");
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
     }
   }
 
   return (
     <header className="sheet-header">
       <section className="header-info">
-        <div className="portrait-box">
-          <span>Imagem</span>
-        </div>
+        <button
+          type="button"
+          className={`portrait-box ${identity.image ? "has-image" : ""}`}
+          onClick={handleImageClick}
+        >
+          {identity.image ? (
+            <>
+              <img src={identity.image} alt="Imagem do personagem" />
+
+              <span className="portrait-overlay">Trocar imagem</span>
+
+              <span
+                role="button"
+                tabIndex={0}
+                className="portrait-remove"
+                onClick={handleRemoveImage}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter" || event.key === " ") {
+                    handleRemoveImage(event);
+                  }
+                }}
+              >
+                ×
+              </span>
+            </>
+          ) : (
+            <span>Imagem</span>
+          )}
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/*"
+            className="portrait-input"
+            onChange={handleImageChange}
+          />
+        </button>
 
         <div className="identity-grid">
           <label>
@@ -55,10 +95,8 @@ function SheetHeader({ character, onUpdateIdentity }) {
             <input
               type="text"
               inputMode="numeric"
-              value={localLevel}
-              onChange={(e) => setLocalLevel(e.target.value)}
-              onBlur={commitLevel}
-              onKeyDown={handleLevelKeyDown}
+              value={identity.level}
+              onChange={(e) => onUpdateIdentity("level", e.target.value)}
             />
           </label>
 
@@ -104,8 +142,12 @@ function SheetHeader({ character, onUpdateIdentity }) {
             >
               <option value="">Escolha um tipo</option>
               <option value="prodigio">Prodígio</option>
-              <option value="diligente-persistente">Diligente Persistente</option>
-              <option value="diligente-super-humano">Diligente Super Humano</option>
+              <option value="diligente-persistente">
+                Diligente Persistente
+              </option>
+              <option value="diligente-super-humano">
+                Diligente Super Humano
+              </option>
             </select>
           </label>
 
@@ -113,7 +155,9 @@ function SheetHeader({ character, onUpdateIdentity }) {
             Classe
             <select
               value={identity.characterClass}
-              onChange={(e) => onUpdateIdentity("characterClass", e.target.value)}
+              onChange={(e) =>
+                onUpdateIdentity("characterClass", e.target.value)
+              }
             >
               <option value="">Escolha uma classe</option>
               <option value="bruto">Bruto</option>
@@ -130,6 +174,7 @@ function SheetHeader({ character, onUpdateIdentity }) {
               onChange={(e) => onUpdateIdentity("origin", e.target.value)}
             >
               <option value="">Escolha uma opção</option>
+
               {origins.map((origin) => (
                 <option key={origin.name} value={origin.name}>
                   {origin.name}
@@ -145,6 +190,7 @@ function SheetHeader({ character, onUpdateIdentity }) {
               onChange={(e) => onUpdateIdentity("martialArt", e.target.value)}
             >
               <option value="">Escolha uma opção</option>
+
               {martialArts.map((martialArt) => (
                 <option key={martialArt.name} value={martialArt.name}>
                   {martialArt.name}
@@ -158,14 +204,20 @@ function SheetHeader({ character, onUpdateIdentity }) {
       <section className="combat-summary">
         <StatCard
           label="Vida Real"
-          value={`${resources.currentLife} / ${resources.maxLife}`}
+          editable
+          currentValue={resources.currentLife}
+          maxValue={resources.maxLife}
+          onChange={(value) => onUpdateResource("currentLife", value)}
         />
 
         <StatCard
           label="Stamina"
-          value={`${resources.currentStamina} / ${resources.maxStamina}`}
+          editable
+          currentValue={resources.currentStamina}
+          maxValue={resources.maxStamina}
+          onChange={(value) => onUpdateResource("currentStamina", value)}
         />
-
+        
         <StatCard label="RD" value={resources.rd} />
         <StatCard label="Movimento" value={`${resources.movement}m`} />
         <StatCard label="Corrida" value={`${resources.run}m`} />

@@ -591,6 +591,32 @@ function App() {
     });
   }
 
+  function handleUpdateResource(field, value) {
+    updateActiveCharacter((prev) => {
+      const numericValue = Number(value);
+
+      if (Number.isNaN(numericValue)) {
+        return prev;
+      }
+
+      const maxValueByField = {
+        currentLife: prev.resources.maxLife,
+        currentStamina: prev.resources.maxStamina,
+      };
+
+      const maxValue = maxValueByField[field] ?? 9999;
+      const finalValue = Math.min(maxValue, Math.max(0, Math.floor(numericValue)));
+
+      return {
+        ...prev,
+        resources: {
+          ...prev.resources,
+          [field]: finalValue,
+        },
+      };
+    });
+  }
+
   function handleAddInventoryItem(itemData) {
     const newItem = {
       id: crypto.randomUUID(),
@@ -685,6 +711,7 @@ function App() {
         <SheetHeader
           character={character}
           onUpdateIdentity={handleUpdateIdentity}
+          onUpdateResource={handleUpdateResource}
         />
 
         <MainLayout

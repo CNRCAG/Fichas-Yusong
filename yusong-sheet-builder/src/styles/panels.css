@@ -776,3 +776,48 @@
 .inventory-item-summary {
   display: none;
 }
+
+/* ===== Benefícios retráteis ===== */
+
+.benefit-card {
+  background: #161616;
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 10px;
+  font-size: 0.9rem;
+  line-height: 1.3;
+}
+
+.benefit-header {
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  align-items: center;
+  gap: 8px;
+}
+
+.benefit-header strong {
+  display: block;
+  color: #fff;
+}
+
+.benefit-header span {
+  display: block;
+  margin-top: 2px;
+  color: var(--school-color-light);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.benefit-body {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  color: #ddd;
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+
+.benefit-body p {
+  margin: 0;
+}

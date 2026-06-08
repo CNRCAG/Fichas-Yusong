@@ -26,6 +26,7 @@ function LeftPanel({
 }) {
   const [activeTab, setActiveTab] = useState("talents");
   const [currentBenefits, setCurrentBenefits] = useState([]);
+  const [openBenefitName, setOpenBenefitName] = useState(null);
   const [isTalentPickerOpen, setIsTalentPickerOpen] = useState(false);
   const [isGeniusModalOpen, setIsGeniusModalOpen] = useState(false);
   const [editingGeniusAbility, setEditingGeniusAbility] = useState(null);
@@ -37,16 +38,32 @@ function LeftPanel({
       (origin) => origin.name === character.identity.origin
     );
 
-    if (originBenefit) benefits.push(originBenefit);
+    if (originBenefit) {
+      benefits.push({
+        ...originBenefit,
+        type: "Origem",
+      });
+    }
 
     const martialBenefit = martialArts.find(
       (martialArt) => martialArt.name === character.identity.martialArt
     );
 
-    if (martialBenefit) benefits.push(martialBenefit);
+    if (martialBenefit) {
+      benefits.push({
+        ...martialBenefit,
+        type: "Arte Marcial",
+      });
+    }
 
     setCurrentBenefits(benefits);
   }, [character.identity.origin, character.identity.martialArt]);
+
+  function toggleBenefit(benefitName) {
+    setOpenBenefitName((current) =>
+      current === benefitName ? null : benefitName
+    );
+  }
 
   function openNewGeniusAbilityModal() {
     setEditingGeniusAbility(null);
@@ -93,13 +110,43 @@ function LeftPanel({
               </button>
             </div>
 
-            <div className="benefits-list">
-              {currentBenefits.map((benefit) => (
-                <div key={benefit.name} className="benefit-card">
-                  <strong>{benefit.name}:</strong> {benefit.benefit}
-                </div>
-              ))}
-            </div>
+            {currentBenefits.length > 0 && (
+              <div className="benefits-list">
+                {currentBenefits.map((benefit) => {
+                  const isOpen = openBenefitName === benefit.name;
+
+                  return (
+                    <article
+                      key={`${benefit.type}-${benefit.name}`}
+                      className={`benefit-card retractable-card ${
+                        isOpen ? "open" : ""
+                      }`}
+                    >
+                      <div className="benefit-header">
+                        <button
+                          type="button"
+                          className="collapse-toggle"
+                          onClick={() => toggleBenefit(benefit.name)}
+                        >
+                          {isOpen ? "⌄" : "›"}
+                        </button>
+
+                        <div>
+                          <strong>{benefit.name}</strong>
+                          <span>{benefit.type}</span>
+                        </div>
+                      </div>
+
+                      {isOpen && (
+                        <div className="benefit-body">
+                          <p>{benefit.benefit}</p>
+                        </div>
+                      )}
+                    </article>
+                  );
+                })}
+              </div>
+            )}
 
             <div className="talent-list">
               {character.talents.length > 0 ? (

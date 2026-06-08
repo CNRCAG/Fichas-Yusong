@@ -79,3 +79,93 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+.portrait-box {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--school-color-light);
+  background:
+    radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 70%),
+    #101010;
+  color: #aaa;
+}
+
+.portrait-box.has-image {
+  padding: 0;
+}
+
+.portrait-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* input real fica escondido */
+.portrait-input {
+  display: none;
+}
+
+.portrait-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(0, 0, 0, 0.62);
+  color: #fff;
+  font-weight: 800;
+  opacity: 0;
+  transition: 0.18s ease;
+  text-align: center;
+  padding: 8px;
+}
+
+.portrait-box:hover .portrait-overlay {
+  opacity: 1;
+}
+
+.portrait-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 90, 90, 0.8);
+  background: rgba(0, 0, 0, 0.72);
+  color: #ff9b9b;
+  font-weight: 900;
+  z-index: 2;
+}
+
+.portrait-remove:hover {
+  background: rgba(255, 90, 90, 0.22);
+}
+
+.editable-resource {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.editable-resource input {
+  width: 42px;
+  background: transparent;
+  border: 0;
+  color: #fff;
+  font: inherit;
+  font-weight: 900;
+  padding: 0;
+}
+
+.editable-resource input:focus {
+  outline: 1px solid var(--school-color-light);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.editable-resource span {
+  color: #fff;
+  font-weight: 900;
+}
