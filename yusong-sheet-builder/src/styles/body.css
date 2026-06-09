@@ -1,11 +1,14 @@
 .body-panel {
-  min-height: 860px;
+  min-height: auto;
 }
 
 .body-map {
   position: relative;
-  min-height: 820px;
-  margin: 14px;
+  width: 100%;
+  max-width: 920px;
+  min-width: 620px;
+  min-height: 760px;
+  margin: 14px auto;
   overflow: hidden;
   background:
     radial-gradient(circle at center, rgba(255, 255, 255, 0.07), transparent 44%),
@@ -31,8 +34,8 @@
   position: absolute;
   left: 50%;
   top: 50.5%;
-  width: 320px;
-  height: 760px;
+  width: 300px;
+  height: 720px;
   transform: translate(-50%, -50%);
   z-index: 1;
   opacity: 0.55;
@@ -110,6 +113,22 @@
   color: #fff;
   font-size: 1.05rem;
   line-height: 1;
+}
+
+.body-dice-select {
+  width: 100%;
+  background: #060606;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #fff;
+  padding: 5px 6px;
+  font-size: 1rem;
+  font-weight: 800;
+  text-align: center;
+  outline: none;
+}
+
+.body-dice-select:focus {
+  border-color: var(--school-color-light);
 }
 
 .armor-control {
@@ -246,70 +265,82 @@
   width: 70px;
 }
 
-.body-dice-select {
-  width: 100%;
-  background: #060606;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  color: #fff;
-  padding: 5px 6px;
-  font-size: 1rem;
-  font-weight: 800;
-  text-align: center;
-  outline: none;
-}
-
-.body-dice-select:focus {
-  border-color: var(--school-color-light);
-}
-
 .part-left-leg::after {
   left: -70px;
   top: 28px;
   width: 70px;
 }
 
-/* RESPONSIVO */
-
-@media (max-width: 1200px) {
+/* Monitor menor */
+@media (max-width: 1500px) {
   .body-map {
-    min-height: 900px;
+    max-width: 800px;
+    min-width: 600px;
+    min-height: 700px;
   }
 
   .body-figure {
-    top: 49.5%;
-    width: 300px;
-    height: 700px;
+    width: 280px;
+    height: 660px;
   }
 
   .body-part-floating {
-    width: 145px;
+    width: 135px;
   }
 
-  .part-right-arm {
-    top: 225px;
-    left: 10px;
-  }
-
-  .part-left-arm {
-    top: 225px;
-    right: 10px;
+  .part-head {
+    top: 18px;
   }
 
   .part-torso {
-    top: 355px;
+    top: 285px;
   }
 
   .part-abdomen {
-    top: 490px;
+    top: 405px;
+  }
+
+  .part-right-arm {
+    top: 215px;
+    left: 14px;
+  }
+
+  .part-left-arm {
+    top: 215px;
+    right: 14px;
   }
 
   .part-right-leg {
-    bottom: 36px;
-    left: 16px;
+    bottom: 30px;
+    left: 22px;
   }
 
   .part-left-leg {
-    bottom: 36px;
-    right: 16px;
+    bottom: 30px;
+    right: 22px;
+  }
+
+  .part-right-arm::after,
+  .part-left-arm::after,
+  .part-right-leg::after,
+  .part-left-leg::after {
+    width: 48px;
+  }
+
+  .part-right-arm::after,
+  .part-right-leg::after {
+    right: -48px;
+  }
+
+  .part-left-arm::after,
+  .part-left-leg::after {
+    left: -48px;
+  }
+}
+
+@media (max-width: 900px) {
+  .body-map {
+    min-width: 680px;
+    overflow-x: auto;
   }
 }

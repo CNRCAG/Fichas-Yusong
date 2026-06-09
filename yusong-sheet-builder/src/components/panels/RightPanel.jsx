@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PanelTabs from "../ui/PanelTabs";
 import { skills } from "../../data/skills";
 import { conditions } from "../../data/conditions";
@@ -19,12 +19,20 @@ function RightPanel({
   onAddInventoryItem,
   onUpdateInventoryItem,
   onRemoveInventoryItem,
+  onUpdateNotes,
+  notesResetVersion,
 }) {
   const [activeTab, setActiveTab] = useState("inventory");
   const [openSkillId, setOpenSkillId] = useState(null);
   const [openConditionId, setOpenConditionId] = useState(null);
   const [isInventoryModalOpen, setIsInventoryModalOpen] = useState(false);
   const [editingInventoryItem, setEditingInventoryItem] = useState(null);
+
+  const [notesDraft, setNotesDraft] = useState(character.notes ?? "");
+
+  useEffect(() => {
+    setNotesDraft(character.notes ?? "");
+  }, [character.id, notesResetVersion]);
 
   function toggleSkill(skillId) {
     setOpenSkillId((current) => (current === skillId ? null : skillId));
@@ -59,6 +67,14 @@ function RightPanel({
     }
 
     closeInventoryModal();
+  }
+
+  function handleChangeNotes(value) {
+    setNotesDraft(value);
+
+    if (typeof onUpdateNotes === "function") {
+      onUpdateNotes(value);
+    }
   }
 
   return (
@@ -226,8 +242,8 @@ function RightPanel({
 
             <textarea
               className="notes-area"
-              value={character.notes}
-              readOnly
+              value={notesDraft}
+              onChange={(event) => handleChangeNotes(event.target.value)}
               placeholder="Anotações da sessão..."
             />
           </>

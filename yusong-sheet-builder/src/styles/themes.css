@@ -1,31 +1,43 @@
 .school-seirin {
   --school-color: #3b2a6d;
   --school-color-light: #6c58b5;
+  --school-color-dark: #211842;
+  --school-glow: rgba(108, 88, 181, 0.35);
 }
 
 .school-shinnen {
   --school-color: #17445a;
   --school-color-light: #2f7a9c;
+  --school-color-dark: #0d2a38;
+  --school-glow: rgba(47, 122, 156, 0.35);
 }
 
 .school-yosuk {
   --school-color: #8a2a73;
   --school-color-light: #c747a7;
+  --school-color-dark: #551947;
+  --school-glow: rgba(199, 71, 167, 0.35);
 }
 
 .school-yusong {
   --school-color: #9b2d3a;
   --school-color-light: #d4505f;
+  --school-color-dark: #5d1821;
+  --school-glow: rgba(212, 80, 95, 0.35);
 }
 
 .school-zanfei {
   --school-color: #2d5747;
   --school-color-light: #4f8f75;
+  --school-color-dark: #19352a;
+  --school-glow: rgba(79, 143, 117, 0.35);
 }
 
 .school-custom {
   --school-color: #555555;
   --school-color-light: #888888;
+  --school-color-dark: #242424;
+  --school-glow: rgba(136, 136, 136, 0.35);
 }
 
 .theme-neutral {

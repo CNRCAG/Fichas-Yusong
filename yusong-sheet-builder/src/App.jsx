@@ -47,6 +47,8 @@ function App() {
     loadActiveCharacterId()
   );
 
+  const [sheetResetVersion, setSheetResetVersion] = useState(0);
+
   const character =
     characters.find(
       (currentCharacter) => currentCharacter.id === activeCharacterId
@@ -232,6 +234,7 @@ function App() {
 
     return {
       ...base,
+      notes: "",
 
       resources: {
         ...base.resources,
@@ -329,9 +332,12 @@ function App() {
       id: activeCharacterId,
       createdAt: character.createdAt,
       updatedAt: new Date().toISOString(),
+      notes: "",
     };
 
     updateActiveCharacter(freshCharacter);
+
+    setSheetResetVersion((current) => current + 1);
   }
 
   function handleUpdateIdentity(field, value) {
@@ -354,6 +360,17 @@ function App() {
           ...prev.identity,
           [field]: finalValue,
         },
+      };
+    });
+  }
+
+  function handleUpdateNotes(value) {
+    updateActiveCharacter((prev) => {
+      if (!prev) return prev;
+
+      return {
+        ...prev,
+        notes: value,
       };
     });
   }
@@ -732,6 +749,8 @@ function App() {
           onAddInventoryItem={handleAddInventoryItem}
           onUpdateInventoryItem={handleUpdateInventoryItem}
           onRemoveInventoryItem={handleRemoveInventoryItem}
+          onUpdateNotes={handleUpdateNotes}
+          notesResetVersion={sheetResetVersion}
         />
 
         <AttributesFooter

@@ -4,84 +4,22 @@
   display: grid;
   gap: 14px;
   padding: 16px;
+  overflow: visible;
 }
 
 .header-info {
   display: grid;
-  grid-template-columns: 160px 1fr;
+  grid-template-columns: 150px 1fr;
   gap: 16px;
-}
-
-.portrait-box {
-  min-height: 160px;
-  border: 1px solid var(--school-color-light);
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(0, 0, 0, 0.4));
-  display: grid;
-  place-items: center;
-  color: #aaa;
-}
-
-.identity-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-}
-
-.identity-grid label {
-  display: grid;
-  gap: 4px;
-  font-size: 0.75rem;
-  color: #cfcfcf;
-  text-transform: uppercase;
-}
-
-.identity-grid input,
-.identity-grid select {
-  width: 100%;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: #111;
-  color: #f2f2f2;
-  padding: 8px;
-}
-
-.combat-summary {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 10px;
-}
-
-.stat-card {
-  background: #111;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-left: 4px solid var(--school-color-light);
-  padding: 10px;
-  display: grid;
-  gap: 4px;
-}
-
-.stat-card span {
-  color: #aaa;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-}
-
-.stat-card strong {
-  font-size: 1.15rem;
-}
-
-@media (max-width: 900px) {
-  .header-info {
-    grid-template-columns: 1fr;
-  }
-
-  .identity-grid,
-  .combat-summary {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  align-items: stretch;
 }
 
 .portrait-box {
   position: relative;
+  width: 150px;
+  height: 150px;
+  min-width: 150px;
+  min-height: 150px;
   overflow: hidden;
   cursor: pointer;
   border: 1px solid var(--school-color-light);
@@ -89,6 +27,8 @@
     radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 70%),
     #101010;
   color: #aaa;
+  display: grid;
+  place-items: center;
 }
 
 .portrait-box.has-image {
@@ -144,6 +84,56 @@
   background: rgba(255, 90, 90, 0.22);
 }
 
+.identity-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.identity-grid label {
+  display: grid;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #cfcfcf;
+  text-transform: uppercase;
+}
+
+.identity-grid input,
+.identity-grid select {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: #111;
+  color: #f2f2f2;
+  padding: 8px;
+}
+
+.combat-summary {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(150px, 1fr));
+  gap: 10px;
+}
+
+.stat-card {
+  min-height: 68px;
+  background: #111;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-left: 4px solid var(--school-color-light);
+  padding: 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.stat-card span {
+  color: #aaa;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
+
+.stat-card strong {
+  font-size: 1.15rem;
+}
+
 .editable-resource {
   display: flex;
   align-items: center;
@@ -168,4 +158,73 @@
 .editable-resource span {
   color: #fff;
   font-weight: 900;
+}
+
+/* Monitor menor */
+@media (max-width: 1500px) {
+  .sheet-header {
+    padding: 10px;
+  }
+
+  .header-info {
+    grid-template-columns: 120px 1fr;
+    gap: 12px;
+  }
+
+  .portrait-box {
+    width: 120px;
+    height: 120px;
+    min-width: 120px;
+    min-height: 120px;
+  }
+
+  .identity-grid {
+    grid-template-columns: repeat(5, minmax(120px, 1fr));
+    gap: 8px;
+  }
+
+  .combat-summary {
+    grid-template-columns: repeat(5, minmax(120px, 1fr));
+    gap: 8px;
+  }
+
+  .identity-grid label {
+    font-size: 0.72rem;
+  }
+
+  .identity-grid input,
+  .identity-grid select {
+    min-height: 34px;
+    padding: 6px 8px;
+    font-size: 0.82rem;
+  }
+
+  .stat-card {
+    min-height: 54px;
+    padding: 8px 10px;
+  }
+
+  .stat-card span {
+    font-size: 0.72rem;
+  }
+
+  .stat-card strong {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .header-info {
+    grid-template-columns: 1fr;
+  }
+
+  .portrait-box {
+    width: 150px;
+    height: 150px;
+  }
+
+  .identity-grid,
+  .combat-summary {
+    grid-template-columns: 1fr 1fr;
+  }
 }

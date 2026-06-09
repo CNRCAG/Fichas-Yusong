@@ -20,6 +20,8 @@ function MainLayout({
   onAddInventoryItem,
   onUpdateInventoryItem,
   onRemoveInventoryItem,
+  onUpdateNotes,
+  notesResetVersion,
 }) {
   return (
     <div className="main-layout">
@@ -54,6 +56,8 @@ function MainLayout({
           onAddInventoryItem={onAddInventoryItem}
           onUpdateInventoryItem={onUpdateInventoryItem}
           onRemoveInventoryItem={onRemoveInventoryItem}
+          onUpdateNotes={onUpdateNotes}
+          
         />
       </aside>
     </div>

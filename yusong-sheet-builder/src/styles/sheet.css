@@ -1,59 +1,16 @@
-/* Main layout com corpo central e painéis laterais */
-.main-layout {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr; /* painel central maior, laterais menores */
-  grid-template-areas: "left center right";
-  gap: 30px; /* aumenta o espaço horizontal entre os painéis */
-  margin-top: 0; /* mantém o topo do layout */
-}
-
-/* Áreas nomeadas */
-/* Reposiciona apenas os painéis laterais mantendo o painel central */
-.left-panel {
-  grid-area: left;
-  margin-right: 100px;       /* ajusta horizontalmente */
-  margin-top: 15px;     /* aproxima do cabeçalho verticalmente */
-  align-self: start;    /* força o alinhamento no topo do espaço */
-}
-
-.right-panel {
-  grid-area: right;
-  margin-right: 40px;      /* ajusta horizontalmente */
-  margin-top: 15px;     /* aproxima do cabeçalho verticalmente */
-  align-self: start;    /* força o alinhamento no topo do espaço */
-}
-
-/* Mantém o painel central do jeito que está */
-.center-panel {
-  grid-area: center;
-}
-
-/* Responsivo: em telas pequenas empilha tudo */
-@media (max-width: 1200px) {
-  .main-layout {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .left-panel,
-  .center-panel,
-  .right-panel {
-    width: 100%;
-    margin-bottom: 15px;
-  }
-}
-
 .sheet-actions {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 8px;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
 }
 
 .reset-sheet-button {
   border: 1px solid rgba(255, 90, 90, 0.75);
   background: transparent;
   color: #ff9b9b;
-  padding: 6px 10px;
+  padding: 7px 11px;
   font-weight: 700;
   cursor: pointer;
 }
@@ -62,22 +19,92 @@
   background: rgba(255, 90, 90, 0.12);
 }
 
-.sheet-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
 .back-to-list-button {
   border: 1px solid var(--school-color-light);
   background: transparent;
   color: #fff;
-  padding: 6px 10px;
+  padding: 7px 11px;
   font-weight: 700;
   cursor: pointer;
 }
 
 .back-to-list-button:hover {
   background: rgba(255, 255, 255, 0.08);
+}
+
+/* ===== Layout principal ===== */
+
+.main-layout {
+  display: grid;
+  grid-template-columns: 280px minmax(680px, 1fr) 340px;
+  grid-template-areas: "left center right";
+  gap: 22px;
+  align-items: start;
+  margin-top: 18px;
+}
+
+.left-panel {
+  grid-area: left;
+  margin: 0;
+  min-width: 260px;
+}
+
+.center-panel {
+  grid-area: center;
+  min-width: 0;
+}
+
+.right-panel {
+  grid-area: right;
+  margin: 0;
+  min-width: 320px;
+}
+
+/* Monitor menor, mas ainda desktop */
+@media (max-width: 1500px) {
+  .character-sheet {
+    min-width: 1280px;
+    padding: 10px;
+  }
+
+  .main-layout {
+    grid-template-columns: 250px minmax(620px, 1fr) 310px;
+    gap: 16px;
+  }
+
+  .sheet-actions button {
+    padding: 5px 8px;
+    font-size: 0.78rem;
+  }
+}
+
+/* Tela realmente pequena */
+@media (max-width: 900px) {
+  .character-sheet {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .main-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "center"
+      "left"
+      "right";
+  }
+
+  .left-panel,
+  .center-panel,
+  .right-panel {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .sheet-actions {
+    justify-content: stretch;
+  }
+
+  .sheet-actions button {
+    flex: 1;
+  }
 }
