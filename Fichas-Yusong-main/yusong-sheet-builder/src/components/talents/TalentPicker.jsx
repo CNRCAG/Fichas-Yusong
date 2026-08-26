@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { talents } from "../../data/talents";
+import { getTalentStaminaCost } from "../../utils/calculations";
 
 const categoryLabels = [
   { id: "all", label: "Todos" },
@@ -10,7 +11,7 @@ const categoryLabels = [
   { id: "comando", label: "Comando" },
 ];
 
-function TalentPicker({ characterTalents, onAddTalent, onRemoveTalent, onClose }) {
+function TalentPicker({ characterTalents, maxStamina, onAddTalent, onRemoveTalent, onClose }) {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
   const [openTalentId, setOpenTalentId] = useState(null);
@@ -112,7 +113,8 @@ function TalentPicker({ characterTalents, onAddTalent, onRemoveTalent, onClose }
 
                     <p>
                       <strong>Custo:</strong>{" "}
-                      {talent.specialCost || `${talent.staminaCost} Stamina`}
+                      {talent.specialCost ||
+                        `${getTalentStaminaCost(talent.staminaCostPercent, maxStamina)} Stamina (${talent.staminaCostPercent}% da Stamina Máxima)`}
                     </p>
 
                     {talent.prerequisites && (

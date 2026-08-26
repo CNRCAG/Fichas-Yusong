@@ -1,7 +1,7 @@
 export const schools = [
   {
     id: "seirin",
-    name: "Seirin Academy",
+    name: "Academia Seirin",
     themeClass: "school-seirin",
     color: "#3b2a6d",
   },
@@ -13,19 +13,19 @@ export const schools = [
   },
   {
     id: "yosuk",
-    name: "Yosuk Girls School",
+    name: "Academia Yosuk",
     themeClass: "school-yosuk",
     color: "#8a2a73",
   },
   {
     id: "yusong",
-    name: "Yusong High",
+    name: "Academia Yusong",
     themeClass: "school-yusong",
     color: "#9b2d3a",
   },
   {
     id: "zanfei",
-    name: "Zanfei High",
+    name: "Academia Zanfei",
     themeClass: "school-zanfei",
     color: "#2d5747",
   },

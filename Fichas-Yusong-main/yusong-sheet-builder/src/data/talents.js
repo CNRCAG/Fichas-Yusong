@@ -4,7 +4,7 @@ export const talents = [
     id: "devolucao",
     name: "Devolução",
     category: "bruto",
-    staminaCost: 30,
+    staminaCostPercent: 15,
     action: "Padrão",
     prerequisites: "5 FOR, 5 POD",
     description:
@@ -14,7 +14,7 @@ export const talents = [
     id: "corpo-de-ferro",
     name: "Corpo de Ferro",
     category: "bruto",
-    staminaCost: 25,
+    staminaCostPercent: 13,
     action: "Padrão",
     prerequisites: "5 CON",
     description:
@@ -24,7 +24,7 @@ export const talents = [
     id: "passo-do-tita",
     name: "Passo do Titã",
     category: "bruto",
-    staminaCost: 20,
+    staminaCostPercent: 10,
     action: "Completa",
     prerequisites: "3 FOR, 4 TAM",
     description:
@@ -34,7 +34,7 @@ export const talents = [
     id: "esmaga-ossos",
     name: "Esmaga Ossos",
     category: "bruto",
-    staminaCost: 35,
+    staminaCostPercent: 18,
     action: "Livre",
     prerequisites: "4 FOR",
     description:
@@ -44,7 +44,7 @@ export const talents = [
     id: "forca-abrupta",
     name: "Força Abrupta",
     category: "bruto",
-    staminaCost: 30,
+    staminaCostPercent: 15,
     action: "Movimento",
     prerequisites: "",
     description:
@@ -54,7 +54,7 @@ export const talents = [
     id: "face-do-medo",
     name: "Face do Medo",
     category: "bruto",
-    staminaCost: 20,
+    staminaCostPercent: 10,
     action: "Movimento",
     prerequisites: "5 TAM",
     description:
@@ -64,7 +64,7 @@ export const talents = [
     id: "voraz",
     name: "Voraz",
     category: "bruto",
-    staminaCost: 40,
+    staminaCostPercent: 20,
     action: "Padrão",
     prerequisites: "5 FOR",
     description:
@@ -74,7 +74,7 @@ export const talents = [
     id: "sedento",
     name: "Sedento",
     category: "bruto",
-    staminaCost: 0,
+    staminaCostPercent: 0,
     action: "Passiva",
     prerequisites: "7 FOR",
     description:
@@ -84,7 +84,7 @@ export const talents = [
     id: "predador",
     name: "Predador",
     category: "bruto",
-    staminaCost: 20,
+    staminaCostPercent: 10,
     action: "Padrão",
     prerequisites: "5 TAM",
     description:
@@ -94,7 +94,7 @@ export const talents = [
     id: "demonio",
     name: "Demônio",
     category: "bruto",
-    staminaCost: 0,
+    staminaCostPercent: 0,
     action: "Passiva",
     prerequisites: "5 POD, 5 CON",
     description:
@@ -106,7 +106,7 @@ export const talents = [
     id: "filho-do-vento",
     name: "Filho do Vento",
     category: "agil",
-    staminaCost: 25,
+    staminaCostPercent: 13,
     action: "Movimento",
     prerequisites: "4 AGI",
     description:
@@ -117,7 +117,7 @@ export const talents = [
     id: "tornado",
     name: "Tornado",
     category: "agil",
-    staminaCost: 0,
+    staminaCostPercent: 0,
     specialCost: "1 Ponto de Vento",
     action: "Livre",
     prerequisites: "Derivado de Filho do Vento",
@@ -129,7 +129,7 @@ export const talents = [
     id: "trem-bala",
     name: "Trem Bala",
     category: "agil",
-    staminaCost: 0,
+    staminaCostPercent: 0,
     specialCost: "1 Ponto de Vento",
     action: "Livre",
     prerequisites: "Derivado de Filho do Vento",
@@ -141,7 +141,7 @@ export const talents = [
     id: "clack-boom",
     name: "Clack Boom",
     category: "agil",
-    staminaCost: 0,
+    staminaCostPercent: 0,
     specialCost: "2 Pontos de Vento",
     action: "Livre",
     prerequisites: "Derivado de Filho do Vento",
@@ -153,7 +153,7 @@ export const talents = [
     id: "reacao-instantanea",
     name: "Reação Instantânea",
     category: "agil",
-    staminaCost: 25,
+    staminaCostPercent: 13,
     action: "Livre",
     prerequisites: "7 REA",
     description:
@@ -163,7 +163,7 @@ export const talents = [
     id: "sexto-sentido",
     name: "Sexto Sentido",
     category: "agil",
-    staminaCost: 50,
+    staminaCostPercent: 25,
     action: "Reação",
     prerequisites: "5 REA",
     description:
@@ -173,7 +173,7 @@ export const talents = [
     id: "ankle-breaker",
     name: "Ankle-Breaker",
     category: "agil",
-    staminaCost: 20,
+    staminaCostPercent: 10,
     action: "Movimento",
     prerequisites: "4 AGI",
     description:
@@ -183,7 +183,7 @@ export const talents = [
     id: "instinto",
     name: "Instinto",
     category: "agil",
-    staminaCost: 25,
+    staminaCostPercent: 13,
     action: "Padrão",
     prerequisites: "4 POD",
     description:
@@ -193,7 +193,7 @@ export const talents = [
     id: "anti-queda",
     name: "Anti Queda",
     category: "agil",
-    staminaCost: 0,
+    staminaCostPercent: 0,
     action: "Passiva",
     prerequisites: "5 REA",
     description:
@@ -203,7 +203,7 @@ export const talents = [
     id: "sincronia-do-vento",
     name: "Sincronia do Vento",
     category: "agil",
-    staminaCost: 35,
+    staminaCostPercent: 18,
     action: "Padrão",
     prerequisites: "5 AGI, 5 REA",
     description:
@@ -213,7 +213,7 @@ export const talents = [
     id: "passos-da-noite",
     name: "Passos da Noite",
     category: "agil",
-    staminaCost: 15,
+    staminaCostPercent: 8,
     action: "Livre",
     prerequisites: "5 AGI",
     description:
@@ -225,7 +225,7 @@ export const talents = [
     id: "aprendiz-nato",
     name: "Aprendiz Nato",
     category: "tatico",
-    staminaCost: 0,
+    staminaCostPercent: 0,
     specialCost: "Varia",
     action: "Varia",
     prerequisites: "7 INT",
@@ -236,7 +236,7 @@ export const talents = [
     id: "mestre-em-armas",
     name: "Mestre em Armas",
     category: "tatico",
-    staminaCost: 40,
+    staminaCostPercent: 20,
     action: "Padrão",
     prerequisites: "5 INT",
     description:
@@ -246,7 +246,7 @@ export const talents = [
     id: "acao-calculada",
     name: "Ação Calculada",
     category: "tatico",
-    staminaCost: 30,
+    staminaCostPercent: 15,
     action: "Padrão",
     prerequisites: "3 INT",
     description:
@@ -256,7 +256,7 @@ export const talents = [
     id: "brecha",
     name: "Brecha",
     category: "tatico",
-    staminaCost: 20,
+    staminaCostPercent: 10,
     action: "Reação",
     prerequisites: "4 REA",
     description:
@@ -266,7 +266,7 @@ export const talents = [
     id: "anular",
     name: "Anular",
     category: "tatico",
-    staminaCost: 50,
+    staminaCostPercent: 25,
     action: "Varia",
     prerequisites: "7 POD, 7 INT",
     description:
@@ -276,7 +276,7 @@ export const talents = [
     id: "premeditar",
     name: "Premeditar",
     category: "tatico",
-    staminaCost: 25,
+    staminaCostPercent: 13,
     action: "Livre",
     prerequisites: "5 REA",
     description:
@@ -286,7 +286,7 @@ export const talents = [
     id: "pressao-espiritual",
     name: "Pressão Espiritual",
     category: "tatico",
-    staminaCost: 30,
+    staminaCostPercent: 15,
     action: "Completa",
     prerequisites: "4 TAM",
     description:
@@ -296,7 +296,7 @@ export const talents = [
     id: "bioanalise",
     name: "Bioanálise",
     category: "tatico",
-    staminaCost: 40,
+    staminaCostPercent: 20,
     action: "Padrão",
     prerequisites: "5 REA, 5 INT",
     description:
@@ -306,7 +306,7 @@ export const talents = [
     id: "calmaria",
     name: "Calmaria",
     category: "tatico",
-    staminaCost: 20,
+    staminaCostPercent: 10,
     action: "Completo",
     prerequisites: "5 POD",
     description:
@@ -318,7 +318,7 @@ export const talents = [
     id: "zona",
     name: "Zona",
     category: "comando",
-    staminaCost: 40,
+    staminaCostPercent: 20,
     action: "Completo",
     prerequisites: "7 POD",
     description:
@@ -328,7 +328,7 @@ export const talents = [
     id: "declaracao-de-guerra",
     name: "Declaração de Guerra",
     category: "comando",
-    staminaCost: 20,
+    staminaCostPercent: 10,
     action: "Padrão",
     prerequisites: "4 TAM",
     description:
@@ -338,7 +338,7 @@ export const talents = [
     id: "vida-longa-ao-rei",
     name: "Vida Longa ao Rei",
     category: "comando",
-    staminaCost: 80,
+    staminaCostPercent: 40,
     action: "Padrão",
     prerequisites: "5 CON",
     description:
@@ -348,7 +348,7 @@ export const talents = [
     id: "general",
     name: "General",
     category: "comando",
-    staminaCost: 30,
+    staminaCostPercent: 15,
     action: "Padrão",
     prerequisites: "3 CAR",
     description:
@@ -358,7 +358,7 @@ export const talents = [
     id: "lingua-afiada",
     name: "Língua Afiada",
     category: "comando",
-    staminaCost: 25,
+    staminaCostPercent: 13,
     action: "Livre",
     prerequisites: "4 CAR",
     description:
@@ -368,7 +368,7 @@ export const talents = [
     id: "determinado",
     name: "Determinado",
     category: "comando",
-    staminaCost: 35,
+    staminaCostPercent: 18,
     action: "Movimento",
     prerequisites: "4 POD",
     description:
@@ -378,7 +378,7 @@ export const talents = [
     id: "blefe-sutil",
     name: "Blefe Sutil",
     category: "comando",
-    staminaCost: 30,
+    staminaCostPercent: 15,
     action: "Movimento",
     prerequisites: "",
     description:
@@ -388,7 +388,7 @@ export const talents = [
     id: "guarda-de-campo",
     name: "Guarda de Campo",
     category: "comando",
-    staminaCost: 20,
+    staminaCostPercent: 10,
     action: "Movimento",
     prerequisites: "4 INT",
     description:
@@ -400,7 +400,7 @@ export const talents = [
     id: "dinamico",
     name: "Dinâmico",
     category: "geral",
-    staminaCost: 0,
+    staminaCostPercent: 0,
     action: "Passiva",
     prerequisites: "4 REA",
     description:
@@ -410,7 +410,7 @@ export const talents = [
     id: "bloqueio-forcado",
     name: "Bloqueio Forçado",
     category: "geral",
-    staminaCost: 35,
+    staminaCostPercent: 18,
     action: "Livre",
     prerequisites: "5 REA",
     description:
@@ -420,7 +420,7 @@ export const talents = [
     id: "controle-forcado",
     name: "Controle Forçado",
     category: "geral",
-    staminaCost: 40,
+    staminaCostPercent: 20,
     action: "Completo",
     prerequisites: "",
     description:
@@ -430,7 +430,7 @@ export const talents = [
     id: "abencoado",
     name: "Abençoado",
     category: "geral",
-    staminaCost: 0,
+    staminaCostPercent: 0,
     action: "Passiva",
     prerequisites: "",
     description:
@@ -440,7 +440,7 @@ export const talents = [
     id: "aura",
     name: "Aura",
     category: "geral",
-    staminaCost: 0,
+    staminaCostPercent: 0,
     action: "Passiva",
     prerequisites: "4 TAM, 4 POD",
     description:
@@ -450,7 +450,7 @@ export const talents = [
     id: "sanguineo",
     name: "Sanguíneo",
     category: "geral",
-    staminaCost: 0,
+    staminaCostPercent: 0,
     action: "Passiva",
     prerequisites: "",
     description:
@@ -460,7 +460,7 @@ export const talents = [
     id: "ego-real",
     name: "Ego Real",
     category: "geral",
-    staminaCost: 0,
+    staminaCostPercent: 0,
     action: "Passiva",
     prerequisites: "4 POD",
     description:
@@ -470,7 +470,7 @@ export const talents = [
     id: "quebrar-limite",
     name: "Quebrar Limite",
     category: "geral",
-    staminaCost: 45,
+    staminaCostPercent: 23,
     action: "Padrão",
     prerequisites: "7 POD",
     description:
@@ -480,7 +480,7 @@ export const talents = [
     id: "genio",
     name: "Gênio",
     category: "geral",
-    staminaCost: 50,
+    staminaCostPercent: 25,
     action: "Reação",
     prerequisites: "5 INT",
     description:
@@ -490,7 +490,7 @@ export const talents = [
     id: "malandro",
     name: "Malandro",
     category: "geral",
-    staminaCost: 50,
+    staminaCostPercent: 25,
     action: "Reação",
     prerequisites: "5 POD",
     description:
@@ -500,7 +500,7 @@ export const talents = [
     id: "resiliencia",
     name: "Resiliência",
     category: "geral",
-    staminaCost: 0,
+    staminaCostPercent: 0,
     action: "Passiva",
     prerequisites: "5 CON",
     description:

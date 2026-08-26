@@ -23,6 +23,7 @@ import {
   calculateVitalArmor,
   calculateMemberDicePool,
   calculateMemberArmor,
+  getTalentStaminaCost,
 } from "./utils/calculations";
 
 import SheetHeader from "./components/layout/SheetHeader";
@@ -463,7 +464,16 @@ function App() {
     updateActiveCharacter((prev) => {
       const talent = prev.talents.find((currentTalent) => currentTalent.id === talentId);
 
-      if (!talent || prev.resources.currentStamina < talent.staminaCost) {
+      if (!talent) {
+        return prev;
+      }
+
+      const cost = getTalentStaminaCost(
+        talent.staminaCostPercent,
+        prev.resources.maxStamina
+      );
+
+      if (prev.resources.currentStamina < cost) {
         return prev;
       }
 
@@ -471,7 +481,7 @@ function App() {
         ...prev,
         resources: {
           ...prev.resources,
-          currentStamina: prev.resources.currentStamina - talent.staminaCost,
+          currentStamina: prev.resources.currentStamina - cost,
         },
       };
     });

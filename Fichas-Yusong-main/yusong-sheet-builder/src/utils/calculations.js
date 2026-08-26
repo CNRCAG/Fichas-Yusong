@@ -1,5 +1,5 @@
 export function calculateLife(health, level) {
-  return 6 + Number(health) * Number(level);
+  return Number(health) * 8 + Number(level) * 4;
 }
 
 export function calculateStamina(constitution, health) {
@@ -121,6 +121,7 @@ export function getDiceMaxValue(dice) {
     "1d12": 12,
     "2d8": 16,
     "1d20": 20,
+    "1d20+8": 28,
     "2d20": 40,
   };
 
@@ -145,9 +146,22 @@ export function calculateMemberDicePool(strength, agility) {
     8: ["1d12", "2d8", "2d8", "1d20"],
     9: ["2d8", "2d8", "2d8", "1d20"],
     10: ["2d8", "2d8", "1d20", "1d20"],
-    11: ["2d8", "1d20", "1d20", "2d20"],
+    11: ["2d8", "1d20", "1d20", "1d20+8"],
     12: ["1d20", "1d20", "2d20", "2d20"],
   };
 
   return table[value] || table[1];
+}
+
+/*
+  Custo de Talento em % da Stamina Máxima (v4).
+  Antes os Talentos tinham custo fixo; agora o custo é uma
+  porcentagem da Stamina Máxima do personagem, para que o
+  esforço de usar um Talento continue relevante em qualquer nível.
+*/
+export function getTalentStaminaCost(percent, staminaMax) {
+  const numericPercent = Number(percent) || 0;
+  const numericMax = Number(staminaMax) || 0;
+
+  return Math.ceil((numericPercent / 100) * numericMax);
 }

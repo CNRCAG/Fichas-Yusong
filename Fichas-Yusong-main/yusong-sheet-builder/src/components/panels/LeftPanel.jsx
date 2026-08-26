@@ -155,6 +155,7 @@ function LeftPanel({
                     key={talent.id}
                     talent={talent}
                     currentStamina={character.resources.currentStamina}
+                    maxStamina={character.resources.maxStamina}
                     onUseTalent={onUseTalent}
                     onRemoveTalent={onRemoveTalent}
                   />
@@ -217,6 +218,7 @@ function LeftPanel({
       {isTalentPickerOpen && (
         <TalentPicker
           characterTalents={character.talents}
+          maxStamina={character.resources.maxStamina}
           onAddTalent={onAddTalent}
           onRemoveTalent={onRemoveTalent}
           onClose={() => setIsTalentPickerOpen(false)}

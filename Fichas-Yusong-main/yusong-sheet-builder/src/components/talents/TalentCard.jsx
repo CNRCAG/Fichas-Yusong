@@ -1,9 +1,11 @@
 import { useState } from "react";
+import { getTalentStaminaCost } from "../../utils/calculations";
 
-function TalentCard({ talent, currentStamina, onUseTalent, onRemoveTalent }) {
+function TalentCard({ talent, currentStamina, maxStamina, onUseTalent, onRemoveTalent }) {
   const [isOpen, setIsOpen] = useState(false);
   const isPassive = talent.action === "Passiva";
-  const canUse = isPassive || currentStamina >= talent.staminaCost;
+  const staminaCost = getTalentStaminaCost(talent.staminaCostPercent, maxStamina);
+  const canUse = isPassive || currentStamina >= staminaCost;
 
   return (
     <article className={`talent-card retractable-card ${isOpen ? "open" : ""}`}>
@@ -44,7 +46,8 @@ function TalentCard({ talent, currentStamina, onUseTalent, onRemoveTalent }) {
 
           <p>
             <strong>Custo:</strong>{" "}
-            {talent.specialCost || `${talent.staminaCost} Stamina`}
+            {talent.specialCost ||
+              `${staminaCost} Stamina (${talent.staminaCostPercent}% da Stamina Máxima)`}
           </p>
 
           {talent.prerequisites && (

@@ -119,12 +119,12 @@ function SheetHeader({ character, onUpdateIdentity, onUpdateResource }) {
           </label>
 
           <label>
-            Escola
+            Academia
             <select
               value={identity.school}
               onChange={(e) => onUpdateIdentity("school", e.target.value)}
             >
-              <option value="">Escolha uma escola</option>
+              <option value="">Escolha uma academia</option>
 
               {schools.map((school) => (
                 <option key={school.id} value={school.id}>

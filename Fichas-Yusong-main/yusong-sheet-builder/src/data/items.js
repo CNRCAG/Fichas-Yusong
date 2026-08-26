@@ -77,7 +77,7 @@ export const systemItems = [
     use: "Ataques com mãos",
     durability: 40,
     description:
-      "Armas improvisadas e brutais, comuns em brigas de rua. Podem variar desde pedaços de ferro enferrujados encontrados na cidade até bastões de beisebol de metal. Aumenta o dano dos ataques com as mãos em +2d8+4. Vida do Bastão: 40.",
+      "Armas improvisadas e brutais, comuns em confrontos urbanos. Podem variar desde pedaços de ferro enferrujados encontrados na cidade até bastões de beisebol de metal. Aumenta o dano dos ataques com as mãos em +2d8+4. Vida do Bastão: 40.",
   },
   {
     id: "katana-espada",
@@ -91,22 +91,22 @@ export const systemItems = [
   },
   {
     id: "faca",
-    name: "Faca",
+    name: "Lâmina Curta Robusta",
     category: "Arma",
     damage: "+1d10+2",
     use: "Ataques com mãos",
     durability: 24,
     description:
-      "Facas de cozinha, facas de serra ou facas de carne podem ser armas fatais mesmo sendo encontradas em locais comuns. Aumenta o dano dos ataques em +1d10+2. Esse dano não pode ser diminuído. Vida da Faca de Carne/Faca de Sobrevivência: 24.",
+      "Uma lâmina curta e robusta, rápida e precisa nas mãos certas. Aumenta o dano dos ataques em +1d10+2. Esse dano não pode ser diminuído. Vida da Lâmina Curta Robusta: 24.",
   },
   {
     id: "faquinha",
-    name: "Faquinha",
+    name: "Lâmina Curta Leve",
     category: "Arma",
     damage: "+1d6+1",
     use: "Ataques com mãos",
     durability: 14,
     description:
-      "Versão menor de faca. Causa +1d6+1 de dano, que não pode ser diminuído. Vida da Faquinha: 14.",
+      "Versão menor e mais leve da lâmina curta. Causa +1d6+1 de dano, que não pode ser diminuído. Vida da Lâmina Curta Leve: 14.",
   },
 ];

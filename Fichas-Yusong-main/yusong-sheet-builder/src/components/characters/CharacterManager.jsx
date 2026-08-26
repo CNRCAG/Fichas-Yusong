@@ -16,7 +16,7 @@ function getCharacterSchoolName(character) {
   const schoolId = character.identity?.school;
   const school = schoolId ? getSchoolById(schoolId) : null;
 
-  return school?.name || "Sem escola";
+  return school?.name || "Sem academia";
 }
 
 function getCharacterClassName(character) {
@@ -97,7 +97,7 @@ function CharacterManager({
               type="text"
               value={searchTerm}
               onChange={(event) => setSearchTerm(event.target.value)}
-              placeholder="Buscar por estudante por nome, escola ou classe..."
+              placeholder="Buscar por nome, academia ou classe..."
             />
           </label>
         </div>
@@ -110,7 +110,7 @@ function CharacterManager({
         ) : filteredCharacters.length === 0 ? (
           <div className="empty-character-list">
             <h2>Nenhum resultado encontrado.</h2>
-            <p>Tente buscar por outro nome, escola ou classe.</p>
+            <p>Tente buscar por outro nome, academia ou classe.</p>
           </div>
         ) : (
           <div className="character-card-list">
