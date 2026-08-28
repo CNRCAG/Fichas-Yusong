@@ -29,10 +29,14 @@ import {
 import SheetHeader from "./components/layout/SheetHeader";
 import MainLayout from "./components/layout/MainLayout";
 import AttributesFooter from "./components/layout/AttributesFooter";
+import DiceRollOverlay from "./components/dice/DiceRollOverlay";
+import DiceLog from "./components/dice/DiceLog";
+import { rollDiceNotation } from "./utils/dice";
 
 import "./styles/global.css";
 import "./styles/themes.css";
 import "./styles/sheet.css";
+import "./styles/dice.css";
 import "./styles/header.css";
 import "./styles/panels.css";
 import "./styles/body.css";
@@ -49,6 +53,17 @@ function App() {
   );
 
   const [sheetResetVersion, setSheetResetVersion] = useState(0);
+  const [activeRoll, setActiveRoll] = useState(null);
+  const [rollLog, setRollLog] = useState([]);
+
+  function handleRoll(label, notation) {
+    const result = rollDiceNotation(notation);
+    if (!result) return;
+
+    const entry = { ...result, label, id: `${Date.now()}-${Math.random()}` };
+    setActiveRoll(entry);
+    setRollLog((prev) => [entry, ...prev].slice(0, 6));
+  }
 
   const character =
     characters.find(
@@ -58,7 +73,7 @@ function App() {
   const selectedSchool =
     character?.identity?.school && getSchoolById(character.identity.school)
       ? getSchoolById(character.identity.school)
-      : { themeClass: "theme-neutral" };
+      : { themeClass: "theme-neutral", name: "Sem Academia" };
 
   useEffect(() => {
     saveCharactersToStorage(characters);
@@ -407,6 +422,28 @@ function App() {
     }));
   }
 
+  function handleSetBodyArmor(partId, value) {
+    updateActiveCharacter((prev) => ({
+      ...prev,
+      body: prev.body.map((part) => {
+        if (part.id !== partId) return part;
+
+        const numericValue = Number(value);
+        if (Number.isNaN(numericValue)) return part;
+
+        const newArmor = Math.min(
+          part.maxArmor,
+          Math.max(0, Math.floor(numericValue))
+        );
+
+        return {
+          ...part,
+          currentArmor: newArmor,
+        };
+      }),
+    }));
+  }
+
   function handleChangeBodyDice(partId, newDice) {
     updateActiveCharacter((prev) => {
       const selectedPart = prev.body.find((part) => part.id === partId);
@@ -716,6 +753,13 @@ function App() {
 
   return (
     <main className={`app-page ${selectedSchool.themeClass}`}>
+      <div className="rank-stripe" aria-hidden="true">
+        {selectedSchool.emblem && (
+          <img className="rank-stripe-emblem" src={selectedSchool.emblem} alt="" />
+        )}
+        <span>{selectedSchool.name}</span>
+      </div>
+
       <section className="character-sheet">
         <div className="sheet-actions">
           <button
@@ -744,6 +788,7 @@ function App() {
         <MainLayout
           character={character}
           onChangeBodyArmor={handleChangeBodyArmor}
+          onSetBodyArmor={handleSetBodyArmor}
           onChangeBodyDice={handleChangeBodyDice}
           onUseTalent={handleUseTalent}
           onAddTalent={handleAddTalent}
@@ -761,13 +806,18 @@ function App() {
           onRemoveInventoryItem={handleRemoveInventoryItem}
           onUpdateNotes={handleUpdateNotes}
           notesResetVersion={sheetResetVersion}
+          onRoll={handleRoll}
         />
 
         <AttributesFooter
           character={character}
           onUpdateAttribute={handleUpdateAttribute}
+          onRoll={handleRoll}
         />
       </section>
+
+      <DiceRollOverlay roll={activeRoll} onDone={() => setActiveRoll(null)} />
+      <DiceLog entries={rollLog} />
     </main>
   );
 }

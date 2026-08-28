@@ -10,9 +10,9 @@
 }
 
 .attribute-box {
-  background: #111;
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-top: 4px solid var(--school-color-light);
+  background: var(--surface-raised);
+  border: 1px solid var(--line-strong);
+  border-top: 3px solid var(--school-color-light);
   padding: 10px;
   display: grid;
   gap: 4px;
@@ -21,7 +21,10 @@
 
 .attribute-box span {
   color: var(--school-color-light);
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .attribute-box strong {
@@ -29,8 +32,38 @@
 }
 
 .attribute-box small {
-  color: #aaa;
+  color: var(--text-muted);
   font-size: 0.7rem;
+}
+
+.attribute-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.attribute-roll-button {
+  background: var(--surface-raised);
+  border: 1px solid var(--line-strong);
+  color: var(--text-muted);
+  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  font-size: 0.65rem;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  transition: border-color 0.15s ease, transform 0.1s ease, color 0.15s ease;
+}
+
+.attribute-roll-button:hover {
+  border-color: var(--school-color-light);
+  color: var(--school-color-light);
+}
+
+.attribute-roll-button:active {
+  transform: scale(0.9);
 }
 
 .attribute-input {
@@ -38,10 +71,11 @@
   margin: 4px auto;
   background: transparent;
   border: 0;
-  color: #fff;
+  color: var(--text);
   text-align: center;
-  font-size: 1.25rem;
-  font-weight: 800;
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  font-weight: 600;
   outline: none;
   appearance: textfield;
   -moz-appearance: textfield;
@@ -57,11 +91,6 @@
   color: var(--school-color-light);
 }
 
-.section-title small {
-  color: #aaa;
-  font-size: 0.72rem;
-}
-
 .reaction-row {
   padding: 0 14px;
   display: grid;
@@ -70,19 +99,24 @@
 }
 
 .reaction-card {
-  background: #111;
-  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: var(--surface-raised);
+  border: 1px solid var(--line-strong);
   padding: 12px;
   display: flex;
   justify-content: space-between;
 }
 
 .reaction-card span {
-  color: #aaa;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .reaction-card strong {
+  font-family: var(--font-mono);
+  font-size: 1.1rem;
   color: var(--school-color-light);
 }
 

@@ -1,3 +1,52 @@
+/* ===== Faixa de Academia (elemento de assinatura) ===== */
+
+.rank-stripe {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 22px;
+  background: linear-gradient(
+    180deg,
+    var(--school-color-dark),
+    var(--school-color) 50%,
+    var(--school-color-dark)
+  );
+  border-right: 1px solid var(--school-color-light);
+  z-index: 1;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.rank-stripe-emblem {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.6));
+  flex-shrink: 0;
+}
+
+.rank-stripe span {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .rank-stripe {
+    display: none;
+  }
+}
+
 .sheet-actions {
   display: flex;
   justify-content: flex-end;
@@ -11,7 +60,10 @@
   background: transparent;
   color: #ff9b9b;
   padding: 7px 11px;
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
 }
 
@@ -22,9 +74,12 @@
 .back-to-list-button {
   border: 1px solid var(--school-color-light);
   background: transparent;
-  color: #fff;
+  color: var(--text);
   padding: 7px 11px;
-  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
 }
 

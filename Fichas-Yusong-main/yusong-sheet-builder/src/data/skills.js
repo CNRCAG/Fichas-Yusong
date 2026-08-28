@@ -12,12 +12,6 @@ export const skills = [
       "Mede força física, resistência e capacidade corporal em atividades como corrida, escalada, salto e natação. Usada para superar obstáculos, percorrer longas distâncias e realizar feitos de grande esforço físico.",
   },
   {
-    id: "crime",
-    name: "Crime",
-    description:
-      "Abrange habilidades relacionadas a atos ilícitos, como arrombamento, falsificação e invasão de sistemas. Também envolve o conhecimento de práticas criminosas e como evitá-las ou explorá-las.",
-  },
-  {
     id: "enganacao",
     name: "Enganação",
     description:

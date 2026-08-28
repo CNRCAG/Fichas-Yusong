@@ -155,7 +155,14 @@ function CharacterManager({
 
                       <p>{typeName}</p>
 
-                      <small>
+                      <small className="character-card-school">
+                        {school?.emblem && (
+                          <img
+                            className="character-card-emblem"
+                            src={school.emblem}
+                            alt=""
+                          />
+                        )}
                         {schoolName} · Nível {level}
                       </small>
 

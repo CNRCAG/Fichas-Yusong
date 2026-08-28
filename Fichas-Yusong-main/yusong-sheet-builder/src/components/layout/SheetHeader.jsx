@@ -7,6 +7,7 @@ import { martialArts } from "../../data/martialArts";
 function SheetHeader({ character, onUpdateIdentity, onUpdateResource }) {
   const { identity, resources } = character;
   const fileInputRef = useRef(null);
+  const currentSchool = schools.find((school) => school.id === identity.school);
 
   function handleImageClick() {
     fileInputRef.current?.click();
@@ -41,6 +42,20 @@ function SheetHeader({ character, onUpdateIdentity, onUpdateResource }) {
 
   return (
     <header className="sheet-header">
+      <div className="sheet-eyebrow">
+        <span>Ficha de Lutador · Circuito de Soyang</span>
+        <span className="academy-tag">
+          {currentSchool?.emblem && (
+            <img
+              className="academy-tag-emblem"
+              src={currentSchool.emblem}
+              alt=""
+            />
+          )}
+          {currentSchool ? currentSchool.name : "Sem academia"}
+        </span>
+      </div>
+
       <section className="header-info">
         <button
           type="button"

@@ -5,6 +5,7 @@ import RightPanel from "../panels/RightPanel";
 function MainLayout({
   character,
   onChangeBodyArmor,
+  onSetBodyArmor,
   onChangeBodyDice,
   onUseTalent,
   onAddTalent,
@@ -22,6 +23,7 @@ function MainLayout({
   onRemoveInventoryItem,
   onUpdateNotes,
   notesResetVersion,
+  onRoll,
 }) {
   return (
     <div className="main-layout">
@@ -44,7 +46,9 @@ function MainLayout({
         <BodyPanel
           character={character}
           onChangeBodyArmor={onChangeBodyArmor}
+          onSetBodyArmor={onSetBodyArmor}
           onChangeBodyDice={onChangeBodyDice}
+          onRoll={onRoll}
         />
       </main>
 
@@ -57,7 +61,7 @@ function MainLayout({
           onUpdateInventoryItem={onUpdateInventoryItem}
           onRemoveInventoryItem={onRemoveInventoryItem}
           onUpdateNotes={onUpdateNotes}
-          
+          onRoll={onRoll}
         />
       </aside>
     </div>

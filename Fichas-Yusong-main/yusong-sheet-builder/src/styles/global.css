@@ -1,3 +1,23 @@
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap");
+
+:root {
+  /* Superfícies */
+  --ink: #0a0c0d;
+  --surface: #14171a;
+  --surface-raised: #1a1e21;
+  --line: rgba(238, 240, 241, 0.12);
+  --line-strong: rgba(238, 240, 241, 0.22);
+
+  /* Texto */
+  --text: #eef0f1;
+  --text-muted: #9aa0a6;
+
+  /* Tipografia */
+  --font-display: "Bebas Neue", "Oswald", "Arial Narrow", sans-serif;
+  --font-body: "Inter", "Segoe UI", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -13,10 +33,19 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background: #050808;
-  color: #f2f2f2;
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--font-body);
   overflow-x: auto;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: 0.03em;
+  font-weight: 400;
 }
 
 button,
@@ -33,11 +62,11 @@ button {
 .app-page {
   width: 100%;
   min-height: 100vh;
-  padding: 20px;
+  padding: 20px 20px 20px 46px;
   overflow-x: auto;
   background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.05), transparent 35%),
-    linear-gradient(135deg, #031010, #050505 60%, #0b1110);
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.04), transparent 35%),
+    linear-gradient(135deg, #0c0f10, var(--ink) 60%, #0d1112);
 }
 
 .character-sheet {
@@ -45,6 +74,7 @@ button {
   max-width: 1880px;
   min-width: 1320px;
   margin: 0 auto;
+  position: relative;
 }
 
 @media (max-width: 900px) {

@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 
-function AttributeBox({ attributeKey, label, name, value, onUpdateAttribute }) {
+function AttributeBox({
+  attributeKey,
+  label,
+  name,
+  value,
+  onUpdateAttribute,
+  onRoll,
+}) {
   const [localValue, setLocalValue] = useState(String(value));
 
   useEffect(() => {
@@ -32,10 +39,6 @@ function AttributeBox({ attributeKey, label, name, value, onUpdateAttribute }) {
     <article className="attribute-box">
       <span>{label}</span>
 
-      <div className="section-title">
-        <small>Limite comum: 7 • Limite especial: 12</small>
-      </div>
-
       <input
         className="attribute-input"
         type="text"
@@ -46,7 +49,18 @@ function AttributeBox({ attributeKey, label, name, value, onUpdateAttribute }) {
         onKeyDown={handleKeyDown}
       />
 
-      <small>{name}</small>
+      <div className="attribute-bottom-row">
+        <small>{name}</small>
+
+        <button
+          type="button"
+          className="attribute-roll-button"
+          onClick={() => onRoll(`Teste (${name})`, `1d20+${value}`)}
+          title={`Rolar teste de ${name} (1d20+${value})`}
+        >
+          🎲
+        </button>
+      </div>
     </article>
   );
 }

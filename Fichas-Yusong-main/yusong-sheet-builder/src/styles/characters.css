@@ -1,9 +1,9 @@
 .character-manager-page {
   min-height: 100vh;
   background:
-    radial-gradient(circle at top left, rgba(255,255,255,0.045), transparent 360px),
-    #050909;
-  color: #fff;
+    radial-gradient(circle at top left, var(--line), transparent 360px),
+    var(--ink);
+  color: var(--text);
   padding: 42px;
 }
 
@@ -27,7 +27,7 @@
 }
 
 .character-manager-topbar p {
-  color: #aaa;
+  color: var(--text-muted);
   margin: 6px 0 0;
 }
 
@@ -48,7 +48,7 @@
 }
 
 .character-search span {
-  color: #aaa;
+  color: var(--text-muted);
   font-size: 0.8rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -57,9 +57,9 @@
 
 .character-search input {
   width: 100%;
-  background: #151515;
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.12);
+  background: var(--surface-raised);
+  color: var(--text);
+  border: 1px solid var(--line);
   padding: 16px 18px;
   font-size: 1rem;
 }
@@ -73,7 +73,7 @@
 .manager-primary-button {
   border: 1px solid var(--school-color-light);
   background: var(--school-color);
-  color: #fff;
+  color: var(--text);
   padding: 11px 16px;
   font-weight: 900;
   cursor: pointer;
@@ -99,8 +99,8 @@
 }
 
 .empty-character-list {
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: #141414;
+  border: 1px solid var(--line);
+  background: var(--surface-raised);
   padding: 28px;
 }
 
@@ -109,7 +109,7 @@
 }
 
 .empty-character-list p {
-  color: #aaa;
+  color: var(--text-muted);
   margin-bottom: 0;
 }
 
@@ -123,12 +123,12 @@
   position: relative;
   min-height: 170px;
   background:
-    linear-gradient(135deg, rgba(255,255,255,0.05), transparent 45%),
-    #171717;
+    linear-gradient(135deg, var(--line), transparent 45%),
+    var(--surface-raised);
   border: 1px solid color-mix(
     in srgb,
     var(--school-color-light) 45%,
-    rgba(255,255,255,0.12)
+    var(--line)
   );
   padding: 22px;
   display: grid;
@@ -201,12 +201,12 @@
   width: 130px;
   height: 130px;
   background:
-    radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 70%),
-    #0d0d0d;
+    radial-gradient(circle at center, var(--line), transparent 70%),
+    var(--surface);
   border: 1px solid color-mix(
     in srgb,
     var(--school-color-light) 65%,
-    rgba(255,255,255,0.14)
+    var(--line)
   );
   box-shadow: inset 0 0 18px color-mix(in srgb, var(--school-color) 20%, transparent);
   display: grid;
@@ -247,14 +247,27 @@
 }
 
 .character-card-info p {
-  color: #ddd;
+  color: var(--text-muted);
   margin: 0 0 10px;
 }
 
 .character-card-info small {
   display: block;
-  color: #999;
+  color: var(--text-muted);
   margin-top: 5px;
+}
+
+.character-card-school {
+  display: flex !important;
+  align-items: center;
+  gap: 5px;
+}
+
+.character-card-emblem {
+  width: 15px;
+  height: 15px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .character-card-actions {
@@ -264,7 +277,7 @@
 
 .character-card-actions .manager-primary-button {
   min-width: 140px;
-  background: color-mix(in srgb, var(--school-color) 75%, #111);
+  background: color-mix(in srgb, var(--school-color) 75%, var(--surface-raised));
   border-color: var(--school-color-light);
 }
 

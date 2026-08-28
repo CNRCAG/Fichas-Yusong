@@ -3,6 +3,7 @@
   --school-color-light: #6c58b5;
   --school-color-dark: #211842;
   --school-glow: rgba(108, 88, 181, 0.35);
+  --school-hologram-hue: 69deg;
 }
 
 .school-shinnen {
@@ -10,6 +11,7 @@
   --school-color-light: #2f7a9c;
   --school-color-dark: #0d2a38;
   --school-glow: rgba(47, 122, 156, 0.35);
+  --school-hologram-hue: 15deg;
 }
 
 .school-yosuk {
@@ -17,6 +19,7 @@
   --school-color-light: #c747a7;
   --school-color-dark: #551947;
   --school-glow: rgba(199, 71, 167, 0.35);
+  --school-hologram-hue: 131deg;
 }
 
 .school-yusong {
@@ -24,6 +27,7 @@
   --school-color-light: #d4505f;
   --school-color-dark: #5d1821;
   --school-glow: rgba(212, 80, 95, 0.35);
+  --school-hologram-hue: 169deg;
 }
 
 .school-zanfei {
@@ -31,6 +35,7 @@
   --school-color-light: #4f8f75;
   --school-color-dark: #19352a;
   --school-glow: rgba(79, 143, 117, 0.35);
+  --school-hologram-hue: -28deg;
 }
 
 .school-custom {
@@ -38,6 +43,7 @@
   --school-color-light: #888888;
   --school-color-dark: #242424;
   --school-glow: rgba(136, 136, 136, 0.35);
+  --school-hologram-hue: 0deg;
 }
 
 .theme-neutral {
@@ -45,4 +51,5 @@
   --school-color-light: #a8a8a8;
   --school-color-dark: #242424;
   --school-glow: rgba(168, 168, 168, 0.35);
+  --school-hologram-hue: 0deg;
 }

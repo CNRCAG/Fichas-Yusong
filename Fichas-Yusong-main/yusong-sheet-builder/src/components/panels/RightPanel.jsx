@@ -20,6 +20,7 @@ function RightPanel({
   onUpdateInventoryItem,
   onRemoveInventoryItem,
   onUpdateNotes,
+  onRoll,
   notesResetVersion,
 }) {
   const [activeTab, setActiveTab] = useState("inventory");
@@ -150,6 +151,17 @@ function RightPanel({
                       </button>
 
                       <strong>{skill.name}</strong>
+
+                      <button
+                        type="button"
+                        className="skill-roll-button"
+                        onClick={() =>
+                          onRoll(`Perícia (${skill.name})`, `1d20+${value * 4}`)
+                        }
+                        title={`Rolar ${skill.name} (1d20+${value * 4})`}
+                      >
+                        🎲
+                      </button>
 
                       <select
                         className="skill-rank-select"

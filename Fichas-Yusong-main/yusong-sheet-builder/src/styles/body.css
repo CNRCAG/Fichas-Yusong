@@ -5,16 +5,19 @@
 .body-map {
   position: relative;
   width: 100%;
-  max-width: 920px;
-  min-width: 620px;
-  min-height: 760px;
+  max-width: 980px;
+  height: 900px;
   margin: 14px auto;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   background:
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.07), transparent 44%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(0, 0, 0, 0.42)),
-    #050505;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+    radial-gradient(circle at center, var(--line), transparent 44%),
+    linear-gradient(180deg, var(--line), rgba(0, 0, 0, 0.42)),
+    var(--ink);
+  border: 1px solid var(--line);
 }
 
 .body-grid-lines {
@@ -22,10 +25,26 @@
   inset: 0;
   opacity: 0.07;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.3) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.3) 1px, transparent 1px);
+    linear-gradient(var(--line-strong) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-strong) 1px, transparent 1px);
   background-size: 32px 32px;
   pointer-events: none;
+}
+
+/* Frame compartilhado pela silhueta e pelos cards. Altura em px
+   EXPLÍCITA de propósito (não em %): altura percentual dentro de um
+   flex container com min-height podia não resolver em todo browser,
+   colapsando o frame pra 0 e empilhando todos os cards no mesmo
+   ponto. Com px fixo isso nunca acontece. A proporção (3:4) é mais
+   larga que a do SVG (260x620): isso deixa uma margem real ao redor
+   da silhueta, espaço onde os cards de Braço/Perna se encaixam sem
+   brigar com o card do Torso/Abdômen, que fica sempre no eixo
+   central (50%). */
+.body-figure-frame {
+  position: relative;
+  height: 852px;
+  aspect-ratio: 3 / 4;
+  margin: 0 auto;
 }
 
 /* SILHUETA HUMANA EM LINHAS */
@@ -33,96 +52,111 @@
 .body-figure {
   position: absolute;
   left: 50%;
-  top: 50.5%;
-  width: 300px;
-  height: 720px;
+  top: 50%;
+  height: 100%;
+  width: auto;
   transform: translate(-50%, -50%);
-  z-index: 1;
-  opacity: 0.55;
-  filter:
-    blur(0.35px)
-    drop-shadow(0 0 14px rgba(255, 255, 255, 0.08));
+  z-index: 0;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 18px var(--school-glow, transparent));
+  pointer-events: none;
 }
 
 .body-silhouette {
-  width: 100%;
   height: 100%;
+  width: auto;
   display: block;
+  object-fit: contain;
+  filter: hue-rotate(var(--school-hologram-hue, 0deg)) saturate(1.15);
+  transition: filter 0.25s ease;
 }
 
 .body-soft-fill {
   fill: url("#bodyGhostFill");
   stroke: none;
-  opacity: 0.68;
+  opacity: 0.8;
 }
 
 .body-outline {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.42);
-  stroke-width: 1.15;
+  stroke: color-mix(in srgb, var(--school-color-light) 55%, var(--line-strong));
+  stroke-width: 1.6;
   stroke-linecap: round;
   stroke-linejoin: round;
-  opacity: 0.75;
+  opacity: 0.9;
 }
 
 .body-anatomy-lines {
   fill: none;
-  stroke: rgba(255, 255, 255, 0.28);
+  stroke: var(--line-strong);
   stroke-width: 0.85;
   stroke-linecap: round;
   stroke-linejoin: round;
-  opacity: 0.45;
+  opacity: 0.55;
 }
 
 /* CARD DAS PARTES */
 
 .body-part {
-  background: rgba(18, 18, 18, 0.97);
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  position: relative;
+  z-index: 2;
+  background: color-mix(in srgb, var(--surface-raised) 97%, transparent);
+  border: 1px solid var(--line-strong);
   box-shadow:
     0 0 0 1px rgba(0, 0, 0, 0.75),
-    0 8px 24px rgba(0, 0, 0, 0.35);
-  padding: 7px;
+    0 8px 20px rgba(0, 0, 0, 0.4);
+  padding: 5px;
   display: grid;
-  gap: 5px;
+  gap: 3px;
+  overflow: hidden;
 }
 
+/* Cada card fica ancorado (via transform) diretamente sobre o ponto
+   do membro correspondente no frame, em vez de ficar solto ao redor. */
 .body-part-floating {
   position: absolute;
-  width: 150px;
-  z-index: 3;
+  width: 108px;
+  transform: translate(-50%, -50%);
 }
 
 .body-part-top {
   display: flex;
+  flex-wrap: wrap;
   align-items: start;
   justify-content: space-between;
-  gap: 8px;
+  gap: 2px 6px;
+}
+
+.body-part-top h3 {
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .body-part h3 {
   margin: 0;
-  color: #fff;
-  font-size: 0.72rem;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
-  line-height: 1.1;
+  letter-spacing: 0.03em;
+  line-height: 1.05;
 }
 
 .body-dice {
-  color: #fff;
-  font-size: 1.05rem;
+  color: var(--text);
+  font-size: 0.9rem;
   line-height: 1;
 }
 
 .body-dice-select {
   width: 100%;
-  background: #060606;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  color: #fff;
-  padding: 5px 6px;
-  font-size: 1rem;
-  font-weight: 800;
+  background: var(--ink);
+  border: 1px solid var(--line);
+  color: var(--text);
+  padding: 3px 4px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
   text-align: center;
   outline: none;
 }
@@ -133,18 +167,20 @@
 
 .armor-control {
   display: grid;
-  grid-template-columns: 28px 1fr 28px;
+  grid-template-columns: 20px 1fr 20px;
   align-items: center;
   text-align: center;
+  gap: 2px;
 }
 
 .armor-control button {
-  border: 0;
-  background: #333;
-  color: #fff;
-  padding: 6px;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-raised);
+  color: var(--text);
+  padding: 3px;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.75rem;
+  line-height: 1;
 }
 
 .armor-control button:hover {
@@ -152,16 +188,51 @@
 }
 
 .armor-control strong {
-  background: #060606;
-  padding: 6px 4px;
-  color: #fff;
-  font-size: 0.9rem;
+  background: var(--ink);
+  padding: 4px 2px;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  white-space: nowrap;
+  overflow: hidden;
+  letter-spacing: -0.02em;
+}
+
+.armor-editable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.armor-editable input {
+  width: 22px;
+  background: transparent;
+  border: 0;
+  color: var(--text);
+  font: inherit;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  padding: 0;
+  text-align: right;
+}
+
+.armor-editable input:focus {
+  outline: 1px solid var(--school-color-light);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.armor-editable span {
+  color: var(--text);
+  font-family: var(--font-mono);
 }
 
 .body-status {
   margin: 0;
-  font-size: 0.68rem;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
   text-transform: uppercase;
+  letter-spacing: 0.02em;
   white-space: nowrap;
 }
 
@@ -173,174 +244,106 @@
   color: #ff6565;
 }
 
-/* POSIÇÕES DOS CARDS */
+/* POSIÇÕES DOS CARDS
+   Calculadas a partir da geometria real: a silhueta (largura ~56% do
+   quadro, margem de ~22% de cada lado) faz cada % de posição do
+   card corresponder ao ponto real do membro no SVG, com uma pequena
+   folga extra pra não encostar no card vizinho. */
 
 .part-head {
-  top: 18px;
+  top: 13%;
   left: 50%;
-  transform: translateX(-50%);
 }
 
 .part-torso {
-  top: 310px;
+  top: 27%;
   left: 50%;
-  transform: translateX(-50%);
 }
 
 .part-abdomen {
-  top: 445px;
+  top: 40%;
   left: 50%;
-  transform: translateX(-50%);
 }
 
 .part-right-arm {
-  top: 235px;
-  left: 18px;
+  top: 51%;
+  left: 28%;
 }
 
 .part-left-arm {
-  top: 235px;
-  right: 18px;
+  top: 51%;
+  left: 72%;
 }
 
 .part-right-leg {
-  bottom: 34px;
-  left: 30px;
+  top: 88%;
+  left: 35%;
 }
 
 .part-left-leg {
-  bottom: 34px;
-  right: 30px;
-}
-
-/* LINHAS DE LIGAÇÃO */
-
-.body-part-floating::after {
-  content: "";
-  position: absolute;
-  height: 1px;
-  background: rgba(255, 255, 255, 0.24);
-  pointer-events: none;
-}
-
-.part-head::after {
-  left: 50%;
-  top: 100%;
-  width: 1px;
-  height: 48px;
-  background: rgba(255, 255, 255, 0.24);
-}
-
-.part-right-arm::after {
-  right: -70px;
-  top: 50%;
-  width: 70px;
-}
-
-.part-left-arm::after {
-  left: -70px;
-  top: 50%;
-  width: 70px;
-}
-
-.part-torso::after {
-  left: 50%;
-  top: -44px;
-  width: 1px;
-  height: 44px;
-  background: rgba(255, 255, 255, 0.24);
-}
-
-.part-abdomen::after {
-  left: 50%;
-  top: -38px;
-  width: 1px;
-  height: 38px;
-  background: rgba(255, 255, 255, 0.24);
-}
-
-.part-right-leg::after {
-  right: -70px;
-  top: 28px;
-  width: 70px;
-}
-
-.part-left-leg::after {
-  left: -70px;
-  top: 28px;
-  width: 70px;
+  top: 88%;
+  left: 65%;
 }
 
 /* Monitor menor */
 @media (max-width: 1500px) {
   .body-map {
-    max-width: 800px;
-    min-width: 600px;
-    min-height: 700px;
+    max-width: 820px;
+    height: 760px;
   }
 
-  .body-figure {
-    width: 280px;
-    height: 660px;
+  .body-figure-frame {
+    height: 712px;
   }
 
   .body-part-floating {
-    width: 135px;
-  }
-
-  .part-head {
-    top: 18px;
-  }
-
-  .part-torso {
-    top: 285px;
-  }
-
-  .part-abdomen {
-    top: 405px;
-  }
-
-  .part-right-arm {
-    top: 215px;
-    left: 14px;
-  }
-
-  .part-left-arm {
-    top: 215px;
-    right: 14px;
-  }
-
-  .part-right-leg {
-    bottom: 30px;
-    left: 22px;
-  }
-
-  .part-left-leg {
-    bottom: 30px;
-    right: 22px;
-  }
-
-  .part-right-arm::after,
-  .part-left-arm::after,
-  .part-right-leg::after,
-  .part-left-leg::after {
-    width: 48px;
-  }
-
-  .part-right-arm::after,
-  .part-right-leg::after {
-    right: -48px;
-  }
-
-  .part-left-arm::after,
-  .part-left-leg::after {
-    left: -48px;
+    width: 96px;
   }
 }
 
 @media (max-width: 900px) {
   .body-map {
-    min-width: 680px;
-    overflow-x: auto;
+    height: 620px;
+    padding: 16px;
+  }
+
+  .body-figure-frame {
+    height: 580px;
+  }
+
+  .body-part-floating {
+    width: 68px;
+  }
+
+  .body-part h3 {
+    font-size: 0.5rem;
+  }
+
+  .body-dice-select {
+    font-size: 0.68rem;
+  }
+}
+
+@media (max-width: 650px) {
+  .body-map {
+    height: auto;
+  }
+
+  .body-figure-frame {
+    display: none;
+  }
+
+  .body-map {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .body-part-floating {
+    position: static;
+    transform: none;
+    width: 130px;
   }
 }

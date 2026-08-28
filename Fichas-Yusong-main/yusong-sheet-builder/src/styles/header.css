@@ -1,10 +1,42 @@
 .sheet-header {
-  background: rgba(8, 8, 8, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  position: relative;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--school-color-light);
+  box-shadow: 0 12px 28px -18px var(--school-glow, transparent);
   display: grid;
   gap: 14px;
-  padding: 16px;
+  padding: 18px 20px;
   overflow: visible;
+}
+
+.sheet-eyebrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.sheet-eyebrow .academy-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border: 1px solid var(--school-color-light);
+  color: var(--school-color-light);
+  background: color-mix(in srgb, var(--school-color) 16%, transparent);
+}
+
+.academy-tag-emblem {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  display: block;
 }
 
 .header-info {
@@ -24,9 +56,9 @@
   cursor: pointer;
   border: 1px solid var(--school-color-light);
   background:
-    radial-gradient(circle at center, rgba(255,255,255,0.08), transparent 70%),
-    #101010;
-  color: #aaa;
+    radial-gradient(circle at center, rgba(255,255,255,0.06), transparent 70%),
+    var(--surface-raised);
+  color: var(--text-muted);
   display: grid;
   place-items: center;
 }
@@ -54,7 +86,7 @@
   place-items: center;
   background: rgba(0, 0, 0, 0.62);
   color: #fff;
-  font-weight: 800;
+  font-weight: 700;
   opacity: 0;
   transition: 0.18s ease;
   text-align: center;
@@ -76,7 +108,7 @@
   border: 1px solid rgba(255, 90, 90, 0.8);
   background: rgba(0, 0, 0, 0.72);
   color: #ff9b9b;
-  font-weight: 900;
+  font-weight: 700;
   z-index: 2;
 }
 
@@ -93,19 +125,34 @@
 .identity-grid label {
   display: grid;
   gap: 4px;
-  font-size: 0.75rem;
-  color: #cfcfcf;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-muted);
   text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .identity-grid input,
 .identity-grid select {
   width: 100%;
   min-height: 42px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: #111;
-  color: #f2f2f2;
+  border: 1px solid var(--line-strong);
+  background: var(--surface-raised);
+  color: var(--text);
   padding: 8px;
+  font-family: var(--font-body);
+}
+
+.identity-grid input:focus,
+.identity-grid select:focus {
+  outline: none;
+  border-color: var(--school-color-light);
+}
+
+.identity-grid label:first-child input {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
 }
 
 .combat-summary {
@@ -116,22 +163,26 @@
 
 .stat-card {
   min-height: 68px;
-  background: #111;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-left: 4px solid var(--school-color-light);
+  background: var(--surface-raised);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--school-color-light);
   padding: 10px;
   display: grid;
   gap: 4px;
 }
 
 .stat-card span {
-  color: #aaa;
-  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
 .stat-card strong {
-  font-size: 1.15rem;
+  font-family: var(--font-mono);
+  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .editable-resource {
@@ -141,12 +192,13 @@
 }
 
 .editable-resource input {
-  width: 42px;
+  width: 46px;
   background: transparent;
   border: 0;
-  color: #fff;
+  color: var(--text);
   font: inherit;
-  font-weight: 900;
+  font-family: var(--font-mono);
+  font-weight: 600;
   padding: 0;
 }
 
@@ -156,8 +208,9 @@
 }
 
 .editable-resource span {
-  color: #fff;
-  font-weight: 900;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-weight: 600;
 }
 
 /* Monitor menor */
@@ -189,7 +242,7 @@
   }
 
   .identity-grid label {
-    font-size: 0.72rem;
+    font-size: 0.65rem;
   }
 
   .identity-grid input,
@@ -205,11 +258,11 @@
   }
 
   .stat-card span {
-    font-size: 0.72rem;
+    font-size: 0.65rem;
   }
 
   .stat-card strong {
-    font-size: 1rem;
+    font-size: 1.05rem;
   }
 }
 
