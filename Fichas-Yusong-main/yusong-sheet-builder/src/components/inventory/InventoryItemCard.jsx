@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function InventoryItemCard({ item, onEdit, onRemove }) {
+function InventoryItemCard({ item, onEdit, onRemove, presentationMode }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -52,6 +52,7 @@ function InventoryItemCard({ item, onEdit, onRemove }) {
               type="button"
               className="add-button"
               onClick={() => onEdit(item)}
+              disabled={presentationMode}
             >
               Editar
             </button>
@@ -60,6 +61,7 @@ function InventoryItemCard({ item, onEdit, onRemove }) {
               type="button"
               className="remove-button"
               onClick={() => onRemove(item.id)}
+              disabled={presentationMode}
             >
               Remover
             </button>

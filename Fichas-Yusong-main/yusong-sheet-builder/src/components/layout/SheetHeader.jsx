@@ -4,7 +4,7 @@ import StatCard from "../ui/StatCard";
 import { origins } from "../../data/origins";
 import { martialArts } from "../../data/martialArts";
 
-function SheetHeader({ character, onUpdateIdentity, onUpdateResource }) {
+function SheetHeader({ character, onUpdateIdentity, onUpdateResource, presentationMode }) {
   const { identity, resources } = character;
   const fileInputRef = useRef(null);
   const currentSchool = schools.find((school) => school.id === identity.school);
@@ -56,7 +56,7 @@ function SheetHeader({ character, onUpdateIdentity, onUpdateResource }) {
         </span>
       </div>
 
-      <section className="header-info">
+      <fieldset className="header-info" disabled={presentationMode}>
         <button
           type="button"
           className={`portrait-box ${identity.image ? "has-image" : ""}`}
@@ -214,7 +214,7 @@ function SheetHeader({ character, onUpdateIdentity, onUpdateResource }) {
             </select>
           </label>
         </div>
-      </section>
+      </fieldset>
 
       <section className="combat-summary">
         <StatCard

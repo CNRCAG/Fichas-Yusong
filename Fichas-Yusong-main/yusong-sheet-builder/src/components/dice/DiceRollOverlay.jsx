@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { playRollingSound, playResultSound } from "../../utils/sound";
 
 function DiceRollOverlay({ roll, onDone }) {
   const [phase, setPhase] = useState("rolling");
@@ -7,7 +8,12 @@ function DiceRollOverlay({ roll, onDone }) {
     if (!roll) return undefined;
 
     setPhase("rolling");
-    const revealTimer = setTimeout(() => setPhase("result"), 420);
+    playRollingSound();
+
+    const revealTimer = setTimeout(() => {
+      setPhase("result");
+      playResultSound(roll);
+    }, 420);
     const dismissTimer = setTimeout(() => {
       onDone();
     }, 2000);
@@ -40,6 +46,16 @@ function DiceRollOverlay({ roll, onDone }) {
                 </span>
               ))}
             </div>
+            {roll.modifier ? (
+              <span
+                className={`dice-overlay-condition-note ${
+                  roll.modifier > 0 ? "is-positive" : "is-negative"
+                }`}
+              >
+                {roll.modifier > 0 ? "+" : ""}
+                {roll.modifier} por condição ativa
+              </span>
+            ) : null}
           </>
         )}
       </div>

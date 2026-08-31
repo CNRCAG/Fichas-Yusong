@@ -1,7 +1,7 @@
 // Utilitário de rolagem de dados no padrão usado pelo sistema Pilares de Atlas
-// Suporta notações como "1d4", "2d8", "1d6+1d4", "1d20+8", "1d4+2".
+// Suporta notações como "1d4", "2d8", "1d6+1d4", "1d20+8", "1d4+2", "1d20+1-4".
 
-const DICE_TOKEN = /(\d+)d(\d+)/i;
+const SIGNED_TOKEN = /([+-]?)(\d+d\d+|\d+)/gi;
 
 /**
  * Rola um único dado de "sides" lados.
@@ -12,27 +12,37 @@ function rollSingleDie(sides) {
 
 /**
  * Faz o parsing de uma notação de dados em uma lista de termos.
- * Cada termo é { type: "dice", count, sides } ou { type: "flat", value }.
+ * Cada termo é { type: "dice", count, sides, sign } ou { type: "flat", value }.
+ * Suporta sinais (+/-) antes de cada termo, então "1d20+1-4" funciona.
  */
 export function parseDiceNotation(notation) {
   if (!notation || typeof notation !== "string") return [];
 
   const cleaned = notation.replace(/\s+/g, "");
-  const terms = cleaned.split("+").filter(Boolean);
+  const terms = [];
+  let match;
 
-  return terms.map((term) => {
-    const match = term.match(DICE_TOKEN);
-    if (match) {
-      return {
+  SIGNED_TOKEN.lastIndex = 0;
+  while ((match = SIGNED_TOKEN.exec(cleaned)) !== null) {
+    const sign = match[1] === "-" ? -1 : 1;
+    const raw = match[2];
+    const diceMatch = raw.match(/^(\d+)d(\d+)$/i);
+
+    if (diceMatch) {
+      terms.push({
         type: "dice",
-        count: parseInt(match[1], 10),
-        sides: parseInt(match[2], 10),
-        raw: term,
-      };
+        count: parseInt(diceMatch[1], 10),
+        sides: parseInt(diceMatch[2], 10),
+        sign,
+        raw: match[0],
+      });
+    } else {
+      const flat = parseInt(raw, 10) * sign;
+      terms.push({ type: "flat", value: Number.isNaN(flat) ? 0 : flat, raw: match[0] });
     }
-    const flat = parseInt(term, 10);
-    return { type: "flat", value: Number.isNaN(flat) ? 0 : flat, raw: term };
-  });
+  }
+
+  return terms;
 }
 
 /**
@@ -50,7 +60,7 @@ export function rollDiceNotation(notation) {
   terms.forEach((term) => {
     if (term.type === "dice") {
       for (let i = 0; i < term.count; i += 1) {
-        const value = rollSingleDie(term.sides);
+        const value = rollSingleDie(term.sides) * term.sign;
         rolls.push({ sides: term.sides, value });
         total += value;
       }
@@ -63,4 +73,13 @@ export function rollDiceNotation(notation) {
   });
 
   return { notation, rolls, total };
+}
+
+/**
+ * Anexa um modificador numérico (positivo ou negativo) ao final de uma notação.
+ * Ex: applyModifier("1d20+1", -4) => "1d20+1-4"
+ */
+export function applyModifier(notation, modifier) {
+  if (!modifier) return notation;
+  return modifier > 0 ? `${notation}+${modifier}` : `${notation}${modifier}`;
 }

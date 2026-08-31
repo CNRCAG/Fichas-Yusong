@@ -44,6 +44,16 @@
   grid-template-columns: 150px 1fr;
   gap: 16px;
   align-items: stretch;
+  border: none;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+
+.header-info:disabled,
+.header-info[disabled] {
+  opacity: 0.5;
+  filter: grayscale(0.4);
 }
 
 .portrait-box {

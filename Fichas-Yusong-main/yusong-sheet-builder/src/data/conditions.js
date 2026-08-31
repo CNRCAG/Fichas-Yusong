@@ -5,6 +5,7 @@ export const conditions = [
     description:
       "Ao se sentir preenchido pelo medo, a pessoa tem dificuldade em agir normalmente.",
     effect: "-4 em todas as ações.",
+    rollModifier: -4,
   },
   {
     id: "desesperado",
@@ -12,6 +13,7 @@ export const conditions = [
     description:
       "Pior que estar amedrontado, o sentimento evoluiu para um desespero verdadeiro e irracional.",
     effect: "-10 em todas as rolagens.",
+    rollModifier: -10,
   },
   {
     id: "motivado",
@@ -19,6 +21,7 @@ export const conditions = [
     description:
       "A pessoa é preenchida de motivação pelas circunstâncias ao seu redor.",
     effect: "+4 em todos os testes realizados.",
+    rollModifier: 4,
   },
   {
     id: "ansioso",

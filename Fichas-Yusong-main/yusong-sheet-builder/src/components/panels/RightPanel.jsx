@@ -22,6 +22,7 @@ function RightPanel({
   onUpdateNotes,
   onRoll,
   notesResetVersion,
+  presentationMode,
 }) {
   const [activeTab, setActiveTab] = useState("inventory");
   const [openSkillId, setOpenSkillId] = useState(null);
@@ -92,6 +93,7 @@ function RightPanel({
                 type="button"
                 className="add-button"
                 onClick={openNewInventoryItemModal}
+                disabled={presentationMode}
               >
                 + Item
               </button>
@@ -113,6 +115,7 @@ function RightPanel({
                       item={item}
                       onEdit={openEditInventoryItemModal}
                       onRemove={onRemoveInventoryItem}
+                      presentationMode={presentationMode}
                     />
                   ))
                 ) : (
@@ -169,6 +172,7 @@ function RightPanel({
                         onChange={(event) =>
                           onUpdateSkill(skill.id, event.target.value)
                         }
+                        disabled={presentationMode}
                       >
                         <option value={0}>0</option>
                         <option value={1}>1</option>
@@ -257,6 +261,7 @@ function RightPanel({
               value={notesDraft}
               onChange={(event) => handleChangeNotes(event.target.value)}
               placeholder="Anotações da sessão..."
+              readOnly={presentationMode}
             />
           </>
         )}

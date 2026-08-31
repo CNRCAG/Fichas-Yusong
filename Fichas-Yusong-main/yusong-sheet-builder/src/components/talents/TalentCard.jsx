@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { getTalentStaminaCost } from "../../utils/calculations";
 
-function TalentCard({ talent, currentStamina, maxStamina, onUseTalent, onRemoveTalent }) {
+function TalentCard({ talent, currentStamina, maxStamina, onUseTalent, onRemoveTalent, presentationMode }) {
   const [isOpen, setIsOpen] = useState(false);
   const isPassive = talent.action === "Passiva";
   const staminaCost = getTalentStaminaCost(talent.staminaCostPercent, maxStamina);
@@ -62,6 +62,7 @@ function TalentCard({ talent, currentStamina, maxStamina, onUseTalent, onRemoveT
             type="button"
             className="remove-button"
             onClick={() => onRemoveTalent(talent.id)}
+            disabled={presentationMode}
           >
             Remover
           </button>

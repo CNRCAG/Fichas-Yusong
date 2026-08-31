@@ -23,6 +23,7 @@ function LeftPanel({
   onUpdateGeniusAbility,
   onRemoveGeniusAbility,
   onUseGeniusAbility,
+  presentationMode,
 }) {
   const [activeTab, setActiveTab] = useState("talents");
   const [currentBenefits, setCurrentBenefits] = useState([]);
@@ -105,6 +106,7 @@ function LeftPanel({
                 type="button"
                 className="add-button"
                 onClick={() => setIsTalentPickerOpen(true)}
+                disabled={presentationMode}
               >
                 + Talento
               </button>
@@ -158,6 +160,7 @@ function LeftPanel({
                     maxStamina={character.resources.maxStamina}
                     onUseTalent={onUseTalent}
                     onRemoveTalent={onRemoveTalent}
+                    presentationMode={presentationMode}
                   />
                 ))
               ) : (
@@ -176,6 +179,7 @@ function LeftPanel({
                 type="button"
                 className="add-button"
                 onClick={openNewGeniusAbilityModal}
+                disabled={presentationMode}
               >
                 + Habilidade
               </button>
@@ -189,6 +193,7 @@ function LeftPanel({
                   value={character.genius.name}
                   onChange={(event) => onUpdateGeniusName(event.target.value)}
                   placeholder="Ex: Berserker Imortal"
+                  disabled={presentationMode}
                 />
               </label>
             </div>
@@ -203,6 +208,7 @@ function LeftPanel({
                     onEdit={openEditGeniusAbilityModal}
                     onRemove={onRemoveGeniusAbility}
                     onUse={onUseGeniusAbility}
+                    presentationMode={presentationMode}
                   />
                 ))
               ) : (

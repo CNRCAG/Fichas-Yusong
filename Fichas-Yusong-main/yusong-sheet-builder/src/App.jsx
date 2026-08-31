@@ -31,7 +31,11 @@ import MainLayout from "./components/layout/MainLayout";
 import AttributesFooter from "./components/layout/AttributesFooter";
 import DiceRollOverlay from "./components/dice/DiceRollOverlay";
 import DiceLog from "./components/dice/DiceLog";
-import { rollDiceNotation } from "./utils/dice";
+import { rollDiceNotation, applyModifier } from "./utils/dice";
+import { generateRandomCharacter } from "./utils/randomCharacter";
+import { conditions as conditionsData } from "./data/conditions";
+import { exportFighterCard } from "./utils/exportCard";
+import { isSoundMuted, setSoundMuted } from "./utils/sound";
 
 import "./styles/global.css";
 import "./styles/themes.css";
@@ -55,12 +59,43 @@ function App() {
   const [sheetResetVersion, setSheetResetVersion] = useState(0);
   const [activeRoll, setActiveRoll] = useState(null);
   const [rollLog, setRollLog] = useState([]);
+  const [isExportingCard, setIsExportingCard] = useState(false);
+  const [presentationMode, setPresentationMode] = useState(false);
+  const [soundMuted, setSoundMutedState] = useState(() => isSoundMuted());
+
+  function handleToggleSound() {
+    setSoundMutedState((current) => {
+      const next = !current;
+      setSoundMuted(next);
+      return next;
+    });
+  }
 
   function handleRoll(label, notation) {
-    const result = rollDiceNotation(notation);
+    const activeConditionIds = Object.entries(character?.conditions || {})
+      .filter(([, isActive]) => isActive)
+      .map(([id]) => id);
+
+    const totalModifier = activeConditionIds.reduce((sum, id) => {
+      const condition = conditionsData.find((c) => c.id === id);
+      return sum + (condition?.rollModifier || 0);
+    }, 0);
+
+    const finalNotation = applyModifier(notation, totalModifier);
+    const result = rollDiceNotation(finalNotation);
     if (!result) return;
 
-    const entry = { ...result, label, id: `${Date.now()}-${Math.random()}` };
+    const isDamageRoll = label.startsWith("Dano");
+    const clampedTotal =
+      isDamageRoll && result.total < 0 ? 0 : result.total;
+
+    const entry = {
+      ...result,
+      total: clampedTotal,
+      label,
+      modifier: totalModifier,
+      id: `${Date.now()}-${Math.random()}`,
+    };
     setActiveRoll(entry);
     setRollLog((prev) => [entry, ...prev].slice(0, 6));
   }
@@ -354,6 +389,38 @@ function App() {
     updateActiveCharacter(freshCharacter);
 
     setSheetResetVersion((current) => current + 1);
+  }
+
+  function handleRandomizeCharacter() {
+    if (!character) return;
+
+    const randomized = generateRandomCharacter();
+
+    updateActiveCharacter((prev) => ({
+      ...prev,
+      identity: {
+        ...prev.identity,
+        ...randomized.identity,
+      },
+      attributes: randomized.attributes,
+      skills: randomized.skills,
+      talents: randomized.talent ? [randomized.talent] : [],
+    }));
+  }
+
+  async function handleExportCard() {
+    if (!character || isExportingCard) return;
+    setIsExportingCard(true);
+    try {
+      await exportFighterCard(character);
+    } catch (error) {
+      console.error("Falha ao exportar carteirinha:", error);
+      window.alert(
+        "Não foi possível gerar a carteirinha. Tente novamente."
+      );
+    } finally {
+      setIsExportingCard(false);
+    }
   }
 
   function handleUpdateIdentity(field, value) {
@@ -760,14 +827,61 @@ function App() {
         <span>{selectedSchool.name}</span>
       </div>
 
-      <section className="character-sheet">
+      <section className={`character-sheet ${presentationMode ? "presentation-mode" : ""}`}>
         <div className="sheet-actions">
+          <button
+            type="button"
+            className="presentation-mode-toggle"
+            onClick={() => setPresentationMode((current) => !current)}
+            title={
+              presentationMode
+                ? "Sair do modo apresentação"
+                : "Travar edição para exibição na feira"
+            }
+          >
+            {presentationMode ? "🔒 Sair da Apresentação" : "🖥️ Modo Apresentação"}
+          </button>
+
           <button
             type="button"
             className="back-to-list-button"
             onClick={handleBackToCharacterList}
+            disabled={presentationMode}
+            title={
+              presentationMode
+                ? "Saia do modo apresentação para trocar de personagem"
+                : undefined
+            }
           >
             Voltar para Personagens
+          </button>
+
+          <button
+            type="button"
+            className="randomize-sheet-button"
+            onClick={handleRandomizeCharacter}
+            title="Gera um lutador completo aleatório, incluindo avatar"
+          >
+            🎲 Gerar Aleatório
+          </button>
+
+          <button
+            type="button"
+            className="export-card-button"
+            onClick={handleExportCard}
+            disabled={isExportingCard}
+            title="Baixa uma carteirinha resumida do personagem em imagem"
+          >
+            {isExportingCard ? "Gerando..." : "🪪 Exportar Carteirinha"}
+          </button>
+
+          <button
+            type="button"
+            className="sound-toggle-button"
+            onClick={handleToggleSound}
+            title={soundMuted ? "Ativar som das rolagens" : "Silenciar som das rolagens"}
+          >
+            {soundMuted ? "🔇" : "🔊"}
           </button>
 
           <button
@@ -783,6 +897,7 @@ function App() {
           character={character}
           onUpdateIdentity={handleUpdateIdentity}
           onUpdateResource={handleUpdateResource}
+          presentationMode={presentationMode}
         />
 
         <MainLayout
@@ -807,6 +922,7 @@ function App() {
           onUpdateNotes={handleUpdateNotes}
           notesResetVersion={sheetResetVersion}
           onRoll={handleRoll}
+          presentationMode={presentationMode}
         />
 
         <AttributesFooter

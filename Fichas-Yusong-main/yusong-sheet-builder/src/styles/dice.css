@@ -131,6 +131,21 @@
   border-style: dashed;
 }
 
+.dice-overlay-condition-note {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dice-overlay-condition-note.is-negative {
+  color: #ff9b9b;
+}
+
+.dice-overlay-condition-note.is-positive {
+  color: #9bffb0;
+}
+
 @keyframes dice-pop-in {
   from {
     opacity: 0;
@@ -162,6 +177,13 @@
   opacity: 0.92;
 }
 
+.dice-log-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
 .dice-log-title {
   display: block;
   font-family: var(--font-mono);
@@ -169,7 +191,40 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-bottom: 6px;
+}
+
+.dice-log-close {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 0.75rem;
+  line-height: 1;
+  padding: 2px 4px;
+}
+
+.dice-log-close:hover {
+  color: var(--school-color-light, #fff);
+}
+
+.dice-log-reopen {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface-raised, #16181d);
+  border: 1px solid var(--school-color-light, #888);
+  color: var(--text-primary, #ddd);
+  font-size: 1.1rem;
+  cursor: pointer;
+  z-index: 900;
+  box-shadow: 0 0 12px var(--school-glow, rgba(0,0,0,0.4));
+}
+
+.dice-log-reopen:hover {
+  background: var(--school-color-light);
 }
 
 .dice-log ul {

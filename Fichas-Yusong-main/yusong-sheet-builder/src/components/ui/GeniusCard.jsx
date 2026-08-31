@@ -6,6 +6,7 @@ function GeniusCard({
   onEdit,
   onRemove,
   onUse,
+  presentationMode,
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -66,6 +67,7 @@ function GeniusCard({
               type="button"
               className="add-button"
               onClick={() => onEdit(ability)}
+              disabled={presentationMode}
             >
               Editar
             </button>
@@ -74,6 +76,7 @@ function GeniusCard({
               type="button"
               className="remove-button"
               onClick={() => onRemove(ability.id)}
+              disabled={presentationMode}
             >
               Remover
             </button>

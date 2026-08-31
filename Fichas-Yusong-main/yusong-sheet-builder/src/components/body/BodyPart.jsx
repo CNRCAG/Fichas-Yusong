@@ -9,6 +9,7 @@ function BodyPart({
   onSetArmor,
   onChangeDice,
   onRoll,
+  presentationMode,
 }) {
   const state = getBodyPartState(part.currentArmor);
   const statusClass = getBodyPartStatusClass(part.currentArmor);
@@ -60,6 +61,7 @@ function BodyPart({
             className="body-dice-select"
             value={part.dice}
             onChange={(event) => onChangeDice(part.id, event.target.value)}
+            disabled={presentationMode}
           >
             {diceOptions.map((dice, index) => (
               <option key={`${dice}-${index}`} value={dice}>
@@ -86,7 +88,7 @@ function BodyPart({
         <strong className="body-dice">{part.dice}</strong>
       )}
 
-      <div className="armor-control">
+      <fieldset className="armor-control" disabled={presentationMode}>
         <button
           type="button"
           onClick={() => onChangeArmor(part.id, -1)}
@@ -115,7 +117,7 @@ function BodyPart({
         >
           +
         </button>
-      </div>
+      </fieldset>
     </article>
   );
 }

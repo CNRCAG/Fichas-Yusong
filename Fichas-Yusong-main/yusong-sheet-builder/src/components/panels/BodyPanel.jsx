@@ -22,7 +22,7 @@ function BodySilhouette() {
   );
 }
 
-function BodyPanel({ character, onChangeBodyArmor, onSetBodyArmor, onChangeBodyDice, onRoll }) {
+function BodyPanel({ character, onChangeBodyArmor, onSetBodyArmor, onChangeBodyDice, onRoll, presentationMode }) {
   const memberDiceOptions = character.body
     .filter((part) => part.type === "member")
     .map((part) => part.dice);
@@ -51,6 +51,7 @@ function BodyPanel({ character, onChangeBodyArmor, onSetBodyArmor, onChangeBodyD
               onSetArmor={onSetBodyArmor}
               onChangeDice={onChangeBodyDice}
               onRoll={onRoll}
+              presentationMode={presentationMode}
             />
           ))}
         </div>

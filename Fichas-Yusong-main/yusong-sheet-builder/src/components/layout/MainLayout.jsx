@@ -24,6 +24,7 @@ function MainLayout({
   onUpdateNotes,
   notesResetVersion,
   onRoll,
+  presentationMode,
 }) {
   return (
     <div className="main-layout">
@@ -39,6 +40,7 @@ function MainLayout({
           onUpdateGeniusAbility={onUpdateGeniusAbility}
           onRemoveGeniusAbility={onRemoveGeniusAbility}
           onUseGeniusAbility={onUseGeniusAbility}
+          presentationMode={presentationMode}
         />
       </aside>
 
@@ -49,6 +51,7 @@ function MainLayout({
           onSetBodyArmor={onSetBodyArmor}
           onChangeBodyDice={onChangeBodyDice}
           onRoll={onRoll}
+          presentationMode={presentationMode}
         />
       </main>
 
@@ -62,6 +65,7 @@ function MainLayout({
           onRemoveInventoryItem={onRemoveInventoryItem}
           onUpdateNotes={onUpdateNotes}
           onRoll={onRoll}
+          presentationMode={presentationMode}
         />
       </aside>
     </div>
